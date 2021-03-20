@@ -7,7 +7,7 @@
           <div class="login">
             <div class="login_main">
               <p>客户生命周期管理系统</p>
-              <form action="http://127.0.0.1:8081/login" method="POST">
+              <div class="main">
                 <input
                   type="tel"
                   name="id"
@@ -15,6 +15,7 @@
                   pattern="^1[3456789]\d{9}$"
                   autocomplete="off"
                   required="required"
+                  ref="nums"
                 />
                 <br />
                 <input
@@ -22,9 +23,10 @@
                   name="pw"
                   placeholder="请输入登录密码"
                   required="required"
+                  ref="pwd"
                 />
-                <input type="submit" value="登录" />
-              </form>
+                <input @click="open_console()" type="submit" value="登录" />
+              </div>
             </div>
             <div class="register" onselectstart="return false">
               <el-button type="text" @click="open_login" 
@@ -34,7 +36,6 @@
                 >忘记密码</el-button
               >
             </div>
-            <!-- <router-link to="/homepage">登录</router-link> -->
           </div>
         </el-main>
         <el-aside width="50%"
@@ -68,7 +69,7 @@
         color: #333;
         text-align: center;
       }
-      form {
+      .main {
         input {
           width: 100%;
           height: 50px;
@@ -124,7 +125,7 @@
         width: 100%;
         height: 100%;
         opacity: 0.5;
-        background-image: url("../assets/1.jpg");
+        background-image: url("../assets/4.png");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -152,13 +153,29 @@
 }
 </style>
 <script>
+import {login} from "../api/index.js"
 export default {
   data() {
     return {
-      img: require("../assets/1.jpg"),
+      img: require("../assets/4.png"),
+      data:{
+        id:'',
+        pw:''
+      }
     };
   },
   methods: {
+    open_console(){
+      this.data.id=this.$refs.nums.value
+      this.data.pw=this.$refs.pwd.value
+      login(this.data).then((res)=>{
+        if(res.data.code){
+          this.$router.push('/console')
+          alert(1)
+        }
+        console.log(res)
+      })
+    },
     open_login() {
       this.$alert("暂不支持", "注册用户", {
         confirmButtonText: "确定",
@@ -186,16 +203,16 @@ export default {
   },
   mounted() {
     // 轮播图片
-    // setInterval(() => {
-    //   let bg = this.$refs.bg;
-    //   if (this.img == require("../assets/1.jpg")) {
-    //     bg.style.backgroundImage = "url(" + require("../assets/2.jpg") + ")";
-    //     this.img = require("../assets/2.jpg");
-    //   } else {
-    //     bg.style.backgroundImage = "url(" + require("../assets/1.jpg") + ")";
-    //     this.img = require("../assets/1.jpg");
-    //   }
-    // }, 10000);
+    setInterval(() => {
+      let bg = this.$refs.bg;
+      if (this.img == require("../assets/4.png")) {
+        bg.style.backgroundImage = "url(" + require("../assets/3.jpg") + ")";
+        this.img = require("../assets/3.jpg");
+      } else {
+        bg.style.backgroundImage = "url(" + require("../assets/4.png") + ")";
+        this.img = require("../assets/4.png");
+      }
+    }, 20000);
   },
 };
 </script>
