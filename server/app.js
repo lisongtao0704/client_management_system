@@ -1,11 +1,24 @@
 var express = require('express');
 var app = express();
+var indexRouter = require('./routes/index.js');
+
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'root',
+  database : 'userdb'
+});
+connection.connect();
+connection.query('select * from userinfo', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results);
+});
+connection.end();
+
+app.use('/', indexRouter);
  
-app.get('/', function (req, res) {
-   res.send('Hello World');
-})
- 
-var server = app.listen(8080, function () {
+var server = app.listen(8081, function () {
  
   var host = server.address().address
   var port = server.address().port
