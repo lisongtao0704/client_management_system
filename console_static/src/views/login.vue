@@ -160,7 +160,8 @@ export default {
       img: require("../assets/4.png"),
       data:{
         id:'',
-        pw:''
+        pw:'',
+        token_id:''
       }
     };
   },
@@ -170,10 +171,17 @@ export default {
       this.data.pw=this.$refs.pwd.value
       login(this.data).then((res)=>{
         if(res.data.code){
+          localStorage.token_id=res.data.token_id
           this.$router.push('/console')
         }
         console.log(res)
       })
+      // login(this.data).then((res)=>{
+      //   if(res.data.code){
+      //     this.$router.push('/console')
+      //   }
+      //   console.log(res)
+      // })
     },
     open_login() {
       this.$alert("暂不支持", "注册用户", {
@@ -200,6 +208,19 @@ export default {
       });
     },
   },
+  // beforeCreate(){
+  //   let token_id=localStorage.token_id||""
+  //   let router=this.$router
+  //   async function fn(){
+  //     alert(1)
+  //     await login(token_id).then(res=>{
+  //     router.push('/console')
+  //     alert(2)
+  //   })
+  //   }
+  //   fn()
+  //   alert(3)
+  // },
   mounted() {
     // 轮播图片
     setInterval(() => {

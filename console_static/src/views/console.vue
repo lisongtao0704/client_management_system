@@ -25,13 +25,15 @@
 <style lang="less" scoped>
 .home{
   background-color: #EFF4F5;
+  height: 100%;
   .nav{
     background-color: var(--default);
     width: 100%;
-    height: 50px;
+    height: 7.7%;
   }
   .content{
-    height: 598px;
+    height:92.3%;
+    min-height: 566px;
     min-width:1260px;
     >div:nth-of-type(1){
       float: left;
