@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style>
+:root{
+  --default:#09AEB0
+}
 #app {
   background-color: f7fafa;
   min-width: 1260px;

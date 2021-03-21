@@ -3,17 +3,17 @@
     <div class="nav"></div>
     <div class="content">
       <div>
-        <leftIcon :active="home_active" :def="home" :router_src="home_src"></leftIcon>
-        <leftIcon :active="list_active" :def="list" :router_src="list_src"></leftIcon>
-        <leftIcon :active="know_active" :def="know" :router_src="know_src">></leftIcon>
-        <leftIcon :active="call_active" :def="call" :router_src="call_src"></leftIcon>
-        <leftIcon :active="note_active" :def="note" :router_src="note_src"></leftIcon>
-        <leftIcon :active="client_active" :def="client" :router_src="client_src"></leftIcon>
-        <leftIcon :active="statistical_active" :def="statistical" :router_src="statistical_src"></leftIcon>
-        <leftIcon :active="quality_active" :def="quality" :router_src="quality_src"></leftIcon>
-        <leftIcon :active="set_active" :def="set" :router_src="set_src"></leftIcon>
-        <leftIcon :active="monitor_active" :def="monitor" :router_src="monitor_src"></leftIcon>
-        <leftIcon :active="info_active" :def="info" :router_src="info_src"></leftIcon>
+        <leftIcon :active="home_active" :def="home" :router_src="home_src">首页</leftIcon>
+        <leftIcon :active="list_active" :def="list" :router_src="list_src">工单中心</leftIcon>
+        <leftIcon :active="know_active" :def="know" :router_src="know_src">知识库</leftIcon>
+        <leftIcon :active="call_active" :def="call" :router_src="call_src">呼叫中心</leftIcon>
+        <leftIcon :active="note_active" :def="note" :router_src="note_src">短信</leftIcon>
+        <leftIcon :active="client_active" :def="client" :router_src="client_src">客户中心</leftIcon>
+        <leftIcon :active="statistical_active" :def="statistical" :router_src="statistical_src">统计</leftIcon>
+        <leftIcon :active="quality_active" :def="quality" :router_src="quality_src">质检</leftIcon>
+        <leftIcon :active="set_active" :def="set" :router_src="set_src">设置</leftIcon>
+        <leftIcon :active="monitor_active" :def="monitor" :router_src="monitor_src">大屏监控</leftIcon>
+        <leftIcon :active="info_active" :def="info" :router_src="info_src">消息中心</leftIcon>
       </div>
       <div class="main">
         <router-view></router-view>
@@ -26,7 +26,7 @@
 .home{
   background-color: #EFF4F5;
   .nav{
-    background-color: #09AEB0;
+    background-color: var(--default);
     width: 100%;
     height: 50px;
   }
@@ -35,7 +35,6 @@
     min-width:1260px;
     >div:nth-of-type(1){
       float: left;
-      overflow: hidden;
       width: 4%;
       min-width: 50px;
       height: 100%;

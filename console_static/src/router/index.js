@@ -18,6 +18,7 @@ const routes = [
   {
     path: "/console",
     name: "Console",
+    redirect:"/console/home",
     component: () => import("../views/console.vue"),
     children:[
       {
