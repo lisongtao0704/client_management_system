@@ -171,7 +171,6 @@ export default {
       login(this.data).then((res)=>{
         if(res.data.code){
           this.$router.push('/console')
-          alert(1)
         }
         console.log(res)
       })

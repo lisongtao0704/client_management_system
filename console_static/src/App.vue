@@ -13,7 +13,8 @@ export default {
 
 <style>
 #app {
-  background-color: #f7fafa;
+  background-color: f7fafa;
   min-width: 1260px;
+  min-height: 648px;
 }
 </style>
