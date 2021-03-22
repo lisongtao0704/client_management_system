@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/login.vue";
+import { login } from "../api/index.js";
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,9 @@ const routes = [
   {
     path: "/console",
     name: "Console",
-    redirect:"/console/home",
+    redirect: "/console/home",
     component: () => import("../views/console.vue"),
-    children:[
+    children: [
       {
         path: "home",
         name: "Homepage",
@@ -76,8 +77,7 @@ const routes = [
         name: "Infopage",
         component: () => import("../views/console/info.vue"),
       },
-
-    ]
+    ],
   },
 ];
 
@@ -85,10 +85,20 @@ const router = new VueRouter({
   mode: "history",
   routes,
 });
-
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login') next({ name: 'Login' })
-  next()
-})
+  let token = localStorage.token_id;
+  let token_info;
+  login({ token_id: token }).then((res) => {
+    console.log(res)
+    token_info = res.data.login_way;
+    if (!(token_info == "token验证成功")) {
+      if (to.name == "Login") next();
+      else next({ name: "Login" });
+    } else {
+      if (to.name == "Login") next({ name: "Console" });
+      else next();
+    }
+  });
+});
 
 export default router;

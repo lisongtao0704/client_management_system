@@ -6,17 +6,22 @@ var token_info=require('../database/users')
 router.post('/login', urlencodedParser,function (req, res) {
   var user_info=token_info.objInfo.userInfo[0]
   var response = {
-       "user_id":req.body.id,
-       "user_pw":req.body.pw
+       "service_id":req.body.id,
+       "service_pwd":req.body.pwd,
+       "service_token":req.body.token_id
    };
    console.log(response);
-   if(response.user_id==user_info.usernumber&&response.user_pw==user_info.userpwd){
-     res.send({'code':true})
+   if(response.service_token==user_info.service_id){
+    res.send({'code':true,'login_way':"token验证成功"});
+    res.end();
+   }else {
+     if(response.service_id==user_info.service_number&&response.service_pwd==user_info.service_pwd){
+     res.send({'code':true,'token_id':user_info.service_id})
      res.end();
    }else{
-    res.end("账号或密码有误");
+    res.end("登录信息有误");
    }
-   
+   }
 })
 
 module.exports = router;

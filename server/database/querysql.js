@@ -1,4 +1,4 @@
 var sql= {
-    query:'select * from userinfo'
+    query:'select * from service_info'
 }
 module.exports={sql}
