@@ -16,6 +16,7 @@
                   autocomplete="off"
                   required="required"
                   ref="nums"
+                  v-focus
                 />
                 <br />
                 <input

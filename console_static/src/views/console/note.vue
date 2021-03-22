@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div onselectstart="return false">
-      <div class="nav-info">首页</div>
+      <div class="nav-info">短信</div>
       字节
     </div>
     <div>李诵焘</div>
