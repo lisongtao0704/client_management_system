@@ -89,7 +89,7 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.token_id;
   let token_info;
   login({ token_id: token }).then((res) => {
-    console.log(res)
+    console.log("token验证响应",res)
     token_info = res.data.login_way;
     if (!(token_info == "token验证成功")) {
       if (to.name == "Login") next();

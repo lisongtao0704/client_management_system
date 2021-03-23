@@ -4,7 +4,7 @@
       <div class="left_icon" @mouseover="move_over" @mouseout="move_out">
         <div class="icon_main">
           <div>
-            <div><img :src="def" /><img :src="active" /></div>
+            <div><img :src="def" class="ig"/><img :src="active" class="ig"/></div>
           </div>
         </div></div
     ></router-link>

@@ -2,7 +2,7 @@
   <div class="home">
     <div class="nav"></div>
     <div class="content">
-      <div>
+      <div ref="nav_left">
         <leftIcon :active="home_active" :def="home" :router_src="home_src">首页</leftIcon>
         <leftIcon :active="list_active" :def="list" :router_src="list_src">工单中心</leftIcon>
         <leftIcon :active="know_active" :def="know" :router_src="know_src">知识库</leftIcon>
@@ -95,6 +95,27 @@ export default {
       info_active:require("../assets/消息中心 (1).png"),
       info_src:"/console/info",
     }
+  },
+  mounted () {
+     console.log("ssssss",this.$refs.nav_left)
+     let nav_left=this.$refs.nav_left
+     let nav_left_icon=document.getElementsByClassName("left_icon")
+     nav_left.addEventListener('click',(enent)=>{
+       for(let i=0;i<nav_left_icon.length;i++){
+        nav_left_icon[i].style.background="unset"
+       }
+       switch(event.target.className){
+        case "left_icon" :
+           event.target.style.background="#192948"
+        break;
+        case "ig" :
+          event.target.parentElement.parentElement.parentElement.parentElement.style.background="#192948"
+        break;
+        case "icon_main" :
+          event.target.parentElement.style.background="#192948"
+        break;
+       }
+     },false)
   }
 };
 </script>

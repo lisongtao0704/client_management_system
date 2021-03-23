@@ -174,7 +174,7 @@ export default {
           localStorage.token_id=res.data.token_id
           this.$router.push('/console')
         }
-        console.log(res)
+        console.log("登录响应",res)
       })
     },
     open_login() {
