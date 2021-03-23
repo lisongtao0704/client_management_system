@@ -12,7 +12,7 @@ Vue.directive('focus', {
   }
 })
 
-new Vue({
+let a=new Vue({
   router,
   store,
   render: (h) => h(App),
