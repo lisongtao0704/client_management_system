@@ -95,7 +95,6 @@ export default {
         ul.children[i].style.background="none"
       }
       if(event.target.localName=='a'){
-        console.log("sss,",event.target.parentElement)
         event.target.parentElement.style.background="var(--list_bg_active)"
       }
     })

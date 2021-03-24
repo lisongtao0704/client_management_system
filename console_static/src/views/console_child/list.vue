@@ -6,6 +6,9 @@
         <p>工单中心</p>
         <div class="auto">
           <span>自动接单</span><img src="../../assets/问号.png" />
+          <div class="title">
+            关闭后，触发器在平均分配工单时，将不会自动派单给您<br />例如，您可以在休假时关闭此按钮，上班后再打开
+          </div>
           <el-switch
             v-model="value"
             active-color="var(--default)"
@@ -71,6 +74,7 @@
   height: 100%;
   .auto {
     padding: 0 10px;
+    position: relative;
     .el-switch {
       margin: 0 2px 0 50px;
     }
@@ -90,6 +94,46 @@
       opacity: 0.6;
       vertical-align: middle;
       margin-left: 2px;
+      &:hover {
+        background: var(--default);
+        cursor: pointer;
+      }
+      &:hover + .title {
+        display: block;
+        @keyframes mymove {
+          from {
+            transform: rotateX(-90deg)
+          }
+          50%{
+            transform: rotateX(15deg)
+          }
+          60%{
+            transform: rotateX(0deg)
+          }
+          70%{
+            transform: rotateX(15deg)
+          }
+          to {
+            transform: rotateX(0)
+          }
+        }
+      }
+    }
+    .title {
+      position: absolute;
+      background-color: #fff;
+      box-shadow: 0px 0px 5px #15030378;
+      font-size: 14px;
+      color: #6d7894;
+      top: 35px;
+      left: 10px;
+      width: 207px;
+      padding: 10px 20px;
+      box-sizing: border-box;
+      display: none;
+      animation: mymove .7s;
+      /*Safari 和 Chrome:*/
+      -webkit-animation: mymove .7s;
     }
   }
   > div:nth-of-type(1) {
@@ -104,11 +148,11 @@
       width: 10px;
     }
     div::-webkit-scrollbar-track {
-      background: #F5F7FA;
+      background: #f5f7fa;
       border-radius: 2px;
     }
     div::-webkit-scrollbar-thumb {
-      background: #D8DFF0;
+      background: #d8dff0;
       border-radius: 10px;
     }
     div::-webkit-scrollbar-thumb:hover {

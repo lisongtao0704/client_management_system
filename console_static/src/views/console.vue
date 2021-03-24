@@ -6,7 +6,17 @@
         <div><img src="../assets/客服.png" /><span>客服工作台</span></div>
         <div>
           <img src="../assets/头像.png" />
-          <div><span>昵称</span><img src="../assets/箭头下.png" /><img src="../assets/箭头上.png" /></div>
+          <div class="right_name">
+            <span>昵称</span><img src="../assets/箭头下.png" /><img
+              src="../assets/箭头上.png"
+            />
+            <div>
+              <ul>
+                <li>在线接入测试</li>
+                <li @click="log_off">退出登录</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -115,21 +125,42 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
         > div {
-          &:hover {
-            opacity: 0.7;
+          &:hover{
             cursor: pointer;
-            img:nth-of-type(1){
-              display: none;
-            }
-            img:nth-of-type(2){
-              display:inline-block;
+          }
+          > div{
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+            width: 158px;
+            position: absolute;
+            top: 40px;
+            right: -18px;
+            padding: 5px 20px 5px;
+            cursor: initial;
+            display: none;
+            ul {
+              cursor: initial;
+              li {
+                text-align: left;
+                list-style: none;
+                color: #6d7894;
+                font-size: 14px;
+                cursor: pointer;
+                margin: 5px 0;
+                &:hover{
+                  color: black;
+                }
+              }
             }
           }
           > img {
             width: 10px;
           }
-          > img:nth-of-type(2){
+          > img:nth-of-type(2) {
             display: none;
           }
           span {
@@ -209,7 +240,35 @@ export default {
       info_src: "/console/info",
     };
   },
+  methods: {
+    log_off(){
+      localStorage.removeItem("token_id")
+      window.location.reload()
+    }
+  },
   mounted() {
+    let right_name = document.getElementsByClassName("right_name");
+    let status = true;
+    right_name[0].addEventListener("click", () => {
+      switch (status) {
+        case true:
+          right_name[0].style.cssText = " opacity: 0.7";
+          right_name[0].getElementsByTagName("img")[0].style.display = "none";
+          right_name[0].getElementsByTagName("img")[1].style.display =
+            "inline-block";
+          right_name[0].getElementsByTagName("div")[0].style.display = "block";
+          status = false;
+          break;
+        case false:
+          right_name[0].style.cssText = " opacity: 1";
+          right_name[0].getElementsByTagName("img")[0].style.display =
+            "inline-block";
+          right_name[0].getElementsByTagName("img")[1].style.display = "none";
+          right_name[0].getElementsByTagName("div")[0].style.display = "none";
+          status = true;
+          break;
+      }
+    });
     let nav_left = this.$refs.nav_left;
     let nav_left_icon = document.getElementsByClassName("left_icon");
     nav_left_icon[0].style.background = "var(--active)";
