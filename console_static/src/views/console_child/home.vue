@@ -3,7 +3,7 @@
     <div onselectstart="return false">
       <div class="nav-info">首页</div>
       <p>首页</p>
-      <ul>
+      <ul ref="home">
         <li><router-link to="/console/home/myList">我的工单</router-link></li>
         <li>
           <router-link to="/console/home/myReceive">我的接待</router-link>
@@ -36,13 +36,13 @@
     width: 20%;
     height: 100%;
     float: left;
-    padding-left: 15px;
+    padding: 0 15px;
     box-sizing: border-box;
     position: relative;
     > p {
       font-size: 16px;
       padding: 15px 10px;
-      color: #3d4966;
+      color:var(--active);
       font-weight: 700;
     }
     ul {
@@ -58,6 +58,7 @@
         a{
           text-decoration: none;
           color: #6d7894;
+          display: block;
         }
       }
     }
@@ -86,5 +87,18 @@
 <script>
 export default {
   name: "Homepage",
+  mounted () {
+    let ul=this.$refs.home
+    ul.children[0].style.background="var(--list_bg_active)"
+    ul.addEventListener("click",(event)=>{
+      for(let i=0;i<ul.children.length;i++){
+        ul.children[i].style.background="none"
+      }
+      if(event.target.localName=='a'){
+        console.log("sss,",event.target.parentElement)
+        event.target.parentElement.style.background="var(--list_bg_active)"
+      }
+    })
+  }
 };
 </script>

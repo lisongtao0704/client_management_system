@@ -3,8 +3,8 @@
     <router-link :to="router_src">
       <div class="left_icon" @mouseover="move_over" @mouseout="move_out">
         <div class="icon_main">
-          <div>
-            <div><img :src="def" class="ig"/><img :src="active" class="ig"/></div>
+          <div class="icon">
+            <div class="icon_"><img :src="def" class="ig"/><img :src="active" class="ig"/></div>
           </div>
         </div></div
     ></router-link>
@@ -76,7 +76,7 @@ export default {
     display: flex;
     align-items: center;
     &:hover {
-      background-color: #192948;
+      background-color: var(--active);
     }
     &:hover .icon_main > div > div {
       transform: translate(-16px, 0);

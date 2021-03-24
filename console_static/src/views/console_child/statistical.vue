@@ -2,9 +2,9 @@
   <div class="page">
     <div onselectstart="return false">
       <div class="nav-info">统计</div>
-      字节
+      统计暂未开发
     </div>
-    <div>李诵焘</div>
+    <div>举头望明月</div>
   </div>
 </template>
 <style lang="less" scoped>

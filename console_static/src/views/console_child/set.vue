@@ -2,9 +2,9 @@
   <div class="page">
     <div onselectstart="return false">
       <div class="nav-info">设置</div>
-      字节
+      设置暂未开发
     </div>
-    <div>李诵焘</div>
+    <div>上有天堂</div>
   </div>
 </template>
 <style lang="less" scoped>

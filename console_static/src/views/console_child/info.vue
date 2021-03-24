@@ -2,9 +2,9 @@
   <div class="page">
     <div onselectstart="return false">
       <div class="nav-info">消息中心</div>
-      字节
+      消息中心暂未开发
     </div>
-    <div>李诵焘</div>
+    <div>鹅鹅鹅，曲项向天歌，白毛浮绿水，红掌拨清波</div>
   </div>
 </template>
 <style lang="less" scoped>

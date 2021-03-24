@@ -2,9 +2,9 @@
   <div class="page">
     <div onselectstart="return false">
       <div class="nav-info">呼叫中心</div>
-      字节
+      呼叫中心暂未开发
     </div>
-    <div>李诵焘</div>
+    <div>小鸡炖蘑菇</div>
   </div>
 </template>
 <style lang="less" scoped>

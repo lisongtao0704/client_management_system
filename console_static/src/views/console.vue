@@ -40,7 +40,7 @@
       width: 4%;
       min-width: 50px;
       height: 100%;
-      background-color: #33425B;
+      background-color: var(--nav_bg);
     }
     .main{
       float: left;
@@ -97,22 +97,28 @@ export default {
     }
   },
   mounted () {
-     console.log("ssssss",this.$refs.nav_left)
      let nav_left=this.$refs.nav_left
      let nav_left_icon=document.getElementsByClassName("left_icon")
+      nav_left_icon[0].style.background="var(--active)"
      nav_left.addEventListener('click',(enent)=>{
        for(let i=0;i<nav_left_icon.length;i++){
         nav_left_icon[i].style.background="unset"
        }
        switch(event.target.className){
         case "left_icon" :
-           event.target.style.background="#192948"
+           event.target.style.background="var(--active)"
         break;
         case "ig" :
-          event.target.parentElement.parentElement.parentElement.parentElement.style.background="#192948"
+          event.target.parentElement.parentElement.parentElement.parentElement.style.background="var(--active)"
         break;
         case "icon_main" :
-          event.target.parentElement.style.background="#192948"
+          event.target.parentElement.style.background="var(--active)"
+        break;
+        case "icon" :
+           event.target.parentElement.parentElement.style.background="var(--active)"
+        break;
+        case "icon_" :
+           event.target.parentElement.parentElement.parentElement.style.background="var(--active)"
         break;
        }
      },false)
