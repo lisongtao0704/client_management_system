@@ -4,7 +4,7 @@
       <div class="nav-info">呼叫中心</div>
       呼叫中心暂未开发
     </div>
-    <div>小鸡炖蘑菇</div>
+    <div>我也是示例</div>
   </div>
 </template>
 <style lang="less" scoped>

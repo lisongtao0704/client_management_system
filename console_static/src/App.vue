@@ -18,7 +18,7 @@ export default {
   --list_bg_active: #f0f3fb;
 }
 #app {
-  background-color: f7fafa;
+  background-color: #f7fafa;
   width: 100vw;
   height: 100vh;
   min-width: 1260px;

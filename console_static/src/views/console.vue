@@ -10,7 +10,13 @@
 
           <div v-show="send_note">
             <h4>发送短信</h4>
-            <input ref="focus" type="text" placeholder="请输入手机号码" />
+            <input
+              v-model="num"
+              ref="focus"
+              type="text"
+              placeholder="请输入手机号码"
+            />
+            <div v-show="!num_bool">号码格式不正确！</div>
             <p>选择模板</p>
             <select ref="select_active">
               <option value="- -" selected="selected">- -</option>
@@ -19,9 +25,9 @@
               <option value="大家好">大家好</option>
             </select>
             <textarea rows="10" cols="30" v-model="text_val">
-                    {{teextinfo}}
+                    {{ teextinfo }}
             </textarea>
-            <p>{{text_val.length}}字</p>
+            <p>{{ text_val.length }}字</p>
             <img src="../assets/勾.png" ref="change" /><span
               >发送后关闭窗口</span
             ><br />
@@ -141,6 +147,13 @@
           margin-right: 5px;
         }
         > div:nth-of-type(2) {
+          > div {
+            color: red;
+            font-size: 12px;
+            position: absolute;
+            top: 90px;
+            left: 195px;
+          }
           position: absolute;
           background-color: #fff;
           width: 270px;
@@ -377,6 +390,8 @@ export default {
       send_note: false,
       send: true,
       text_val: "",
+      num_bool: true,
+      num: "",
       home: require("../assets/home.png"),
       home_active: require("../assets/home_active.png"),
       home_src: "/console/home",
@@ -412,6 +427,11 @@ export default {
       info_src: "/console/info",
     };
   },
+  watch: {
+    num:function(){
+      this.num_bool=/^1[3456789]\d{9}$/.test(this.num);
+    }
+  },
   methods: {
     log_off() {
       localStorage.removeItem("token_id");
@@ -431,6 +451,7 @@ export default {
       }
     },
     send_() {
+      this.num_bool = /^1[3456789]\d{9}$/.test(this.num);
       switch (this.send) {
         case true:
           // 发送短信api
@@ -440,11 +461,6 @@ export default {
           // 发送短信api
           break;
       }
-    },
-  },
-  computed:{
-    teextinfo:function () {
-      return this.text_val;
     },
   },
   mounted() {

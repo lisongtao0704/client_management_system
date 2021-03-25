@@ -12,30 +12,29 @@
                   type="tel"
                   name="id"
                   placeholder="请输入您在注册时使用的手机号码"
-                  pattern="^1[3456789]\d{9}$"
+                  v-model="data.id"
                   autocomplete="off"
-                  required="required"
-                  ref="nums"
                   v-focus
+                  ref="tel"
                 />
+                <div v-show="!id_bool">账号格式不正确</div>
                 <br />
                 <input
                   type="password"
-                  name="pw"
+                  name="pwd"
+                  v-model="data.pwd"
                   placeholder="请输入登录密码"
-                  required="required"
                   ref="pwd"
                 />
+                <div v-show="pwd_bool">未输入密码</div>
                 <input @click="open_console()" type="submit" value="登录" />
               </div>
             </div>
             <div class="register" onselectstart="return false">
-              <el-button type="text" @click="open_login" 
+              <el-button type="text" @click="open_login"
                 >还没有账号？<span>立即注册</span></el-button
               >
-              <el-button type="text" @click="open_pw"
-                >忘记密码</el-button
-              >
+              <el-button type="text" @click="open_pw">忘记密码</el-button>
             </div>
           </div>
         </el-main>
@@ -71,6 +70,17 @@
         text-align: center;
       }
       .main {
+        position: relative;
+        div {
+          position: absolute;
+          top: 50px;
+          color: red;
+          font-size: 12px;
+          right: 0;
+        }
+        div:nth-of-type(2) {
+          top: 130px;
+        }
         input {
           width: 100%;
           height: 50px;
@@ -154,33 +164,57 @@
 }
 </style>
 <script>
-import {login} from "../api/index.js"
+import { login } from "../api/index.js";
 export default {
   data() {
     return {
       img: require("../assets/4.png"),
-      data:{
-        id:'',
-        pwd:''
-      }
+      data: {
+        id: "",
+        pwd: "",
+      },
+      id_bool: true,
+      pwd_bool: false,
     };
   },
   methods: {
-    open_console(){
-      this.data.id=this.$refs.nums.value
-      this.data.pwd=this.$refs.pwd.value
-      login(this.data).then((res)=>{
-        if(res.data.code){
-          localStorage.token_id=res.data.token_id
-          this.$router.push('/console')
+    open_console() {
+      this.$refs.tel.addEventListener("keyup", () => {
+        this.id_bool = /^1[3456789]\d{9}$/.test(this.data.id);
+      });
+      this.$refs.pwd.addEventListener("keyup", () => {
+       if(this.data.pwd){
+          this.pwd_bool = false;
+        }else{
+          this.pwd_bool = true;
         }
-        console.log("登录响应",res)
-      })
+      });
+      if (this.data.pwd && /^1[3456789]\d{9}$/.test(this.data.id)) {
+        this.id_bool = true;
+        login(this.data).then((res) => {
+          if (res.data.code) {
+            localStorage.token_id = res.data.token_id;
+            this.$router.push("/console");
+          }
+          console.log("登录响应", res);
+        });
+      } else {
+        if (this.data.id) {
+          this.id_bool = /^1[3456789]\d{9}$/.test(this.data.id);
+        } else {
+          this.id_bool = false;
+        }
+        if (this.data.pwd) {
+          this.pwd_bool = false
+        } else {
+          this.pwd_bool = true;
+        }
+      }
     },
     open_login() {
       this.$alert("暂不支持", "注册用户", {
         confirmButtonText: "确定",
-        closeOnClickModal:true,
+        closeOnClickModal: true,
         // callback: (action) => {
         //   this.$message({
         //     type: "success",
@@ -192,7 +226,7 @@ export default {
     open_pw() {
       this.$alert("暂不支持", "找回密码", {
         confirmButtonText: "确定",
-        closeOnClickModal:true,
+        closeOnClickModal: true,
         // callback: (action) => {
         //   this.$message({
         //     type: "success",

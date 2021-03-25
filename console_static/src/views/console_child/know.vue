@@ -4,7 +4,7 @@
       <div class="nav-info">知识库</div>
       知识库暂未开发
     </div>
-    <div>天王盖地虎</div>
+    <div>示例1</div>
   </div>
 </template>
 <style lang="less" scoped>

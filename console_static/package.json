@@ -2,6 +2,8 @@
   "name": "console_static",
   "version": "0.1.0",
   "private": true,
+  "license": "ISC",
+  "author": "李诵焘",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
