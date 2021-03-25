@@ -144,20 +144,20 @@
     padding: 0 0 0 15px;
     box-sizing: border-box;
     position: relative;
-    div::-webkit-scrollbar {
-      width: 10px;
-    }
-    div::-webkit-scrollbar-track {
-      background: #f5f7fa;
-      border-radius: 2px;
-    }
-    div::-webkit-scrollbar-thumb {
-      background: #d8dff0;
-      border-radius: 10px;
-    }
-    div::-webkit-scrollbar-thumb:hover {
-      background: var(--active);
-    }
+    // div::-webkit-scrollbar {
+    //   width: 10px;
+    // }
+    // div::-webkit-scrollbar-track {
+    //   background: #f5f7fa;
+    //   border-radius: 2px;
+    // }
+    // div::-webkit-scrollbar-thumb {
+    //   background: #d8dff0;
+    //   border-radius: 10px;
+    // }
+    // div::-webkit-scrollbar-thumb:hover {
+    //   background: var(--active);
+    // }
     > div {
       overflow: auto;
       height: 100%;

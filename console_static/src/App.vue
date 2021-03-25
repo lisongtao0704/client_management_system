@@ -6,8 +6,7 @@
 
 <script>
 export default {
-  name: "app",
-  components: {},
+  name: "app"
 };
 </script>
 
@@ -25,21 +24,21 @@ export default {
   min-width: 1260px;
   min-height: 616px;
 }
-body::-webkit-scrollbar{
+*::-webkit-scrollbar{
   width: 10px;
   height: 10px;
 }
-body::-webkit-scrollbar-track{
-  background: #F5F7FA;
+*::-webkit-scrollbar-track{
+  background: var(--list_bg_active);
   border-radius: 2px;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background:#D8DFF0;
   border-radius: 10px;
 }
 
-body::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: var(--active);
 }
 </style>

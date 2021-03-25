@@ -2,7 +2,41 @@
   <div class="home">
     <div class="nav">
       <div>
-        <div><img src="../assets/信息.png" /><span>短信</span></div>
+        <div>
+          <div @click="sent_note">
+            <img src="../assets/信息.png" />
+            <span>短信</span>
+          </div>
+
+          <div v-show="send_note">
+            <h4>发送短信</h4>
+            <input ref="focus" type="text" placeholder="请输入手机号码" />
+            <p>选择模板</p>
+            <select ref="select_active">
+              <option value="- -" selected="selected">- -</option>
+              <option value="你好">你好</option>
+              <option value="我好">我好</option>
+              <option value="大家好">大家好</option>
+            </select>
+            <textarea rows="10" cols="30" v-model="text_val">
+                    {{teextinfo}}
+            </textarea>
+            <p>{{text_val.length}}字</p>
+            <img src="../assets/勾.png" ref="change" /><span
+              >发送后关闭窗口</span
+            ><br />
+            <button @click="send_()">发送</button>
+            <button
+              @click="
+                () => {
+                  this.send_note = false;
+                }
+              "
+            >
+              关闭
+            </button>
+          </div>
+        </div>
         <div><img src="../assets/客服.png" /><span>客服工作台</span></div>
         <div>
           <img src="../assets/头像.png" />
@@ -88,19 +122,153 @@
       padding-right: 20px;
       > div:nth-of-type(1) {
         margin-right: 16px;
-        &:hover {
-          opacity: 0.7;
-          cursor: pointer;
+        position: relative;
+        > div:nth-of-type(1) {
+          &:hover {
+            opacity: 0.7;
+            cursor: pointer;
+          }
+          span {
+            vertical-align: middle;
+            font-size: 14px;
+            color: #fff;
+          }
         }
-        span {
-          vertical-align: middle;
-          font-size: 14px;
-          color: #fff;
-        }
+
         img {
           vertical-align: middle;
           width: 20px;
           margin-right: 5px;
+        }
+        > div:nth-of-type(2) {
+          position: absolute;
+          background-color: #fff;
+          width: 270px;
+          height: 450px;
+          top: 35px;
+          right: 0px;
+          padding: 5px 20px 5px;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+          border-radius: 0 0 4px 4px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          h4 {
+            font-size: 16px;
+            line-height: 22px;
+            text-align: left;
+            color: var(--active);
+            padding: 15px 0px;
+            font-weight: 700;
+          }
+          p:nth-of-type(1) {
+            padding: 10px 0;
+            font-size: 14px;
+            text-align: left;
+          }
+          p:nth-of-type(2) {
+            font-size: 14px;
+            text-align: right;
+          }
+          span {
+            font-size: 14px;
+            vertical-align: middle;
+          }
+          button {
+            width: 65px;
+            font-size: 16px;
+            height: 21px;
+            padding: 5px 10px;
+            box-sizing: content-box;
+            cursor: pointer;
+            border-radius: 2px;
+            outline: unset;
+            margin-top: 13px;
+            margin-right: 5px;
+            border: none;
+          }
+          button:nth-of-type(1) {
+            background-color: var(--default);
+            color: #fff;
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+          button:nth-of-type(2) {
+            background-color: #dcdfe6;
+            color: black;
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+          input {
+            outline: none;
+            width: 100%;
+            border: 1px solid #e1e6f5;
+            height: 32px;
+            line-height: 32px;
+            font-size: 16px;
+            height: 32px;
+            line-height: 32px;
+            font-size: 16px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            &::-webkit-input-placeholder {
+              color: #6d7894;
+              font-size: 12px;
+              font-weight: 400;
+            }
+            &:focus {
+              border: 1px solid var(--default);
+              box-shadow: 0 0 6px 1px rgba(9, 174, 176, 0.3);
+            }
+          }
+          img {
+            width: 14px;
+            border: 1px solid #98a0b9;
+            vertical-align: middle;
+            &:hover {
+              cursor: pointer;
+              border: 1px solid var(--default);
+              box-shadow: 0 0 6px 1px rgba(9, 174, 176, 0.3);
+            }
+          }
+          select {
+            width: 100%;
+            outline: none;
+            border: 1px solid #e1e6f5;
+            height: 32px;
+            line-height: 32px;
+            font-size: 16px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            &:focus {
+              border: 1px solid var(--default);
+              box-shadow: 0 0 6px 1px rgba(9, 174, 176, 0.3);
+            }
+            &:hover {
+              cursor: pointer;
+            }
+            option {
+              &:hover {
+                cursor: pointer;
+                color: var(--default);
+              }
+            }
+          }
+          textarea {
+            resize: none;
+            outline: none;
+            width: 100%;
+            border: 1px solid #e1e6f5;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+            margin-top: 15px;
+            background-color: var(--list_bg_active);
+            &:focus {
+              border: 1px solid var(--default);
+              box-shadow: 0 0 6px 1px rgba(9, 174, 176, 0.3);
+            }
+          }
         }
       }
       > div:nth-of-type(2) {
@@ -127,10 +295,10 @@
         align-items: center;
         position: relative;
         > div {
-          &:hover{
+          &:hover {
             cursor: pointer;
           }
-          > div{
+          > div {
             background-color: #fff;
             border: 1px solid rgba(0, 0, 0, 0.15);
             border-radius: 0 0 4px 4px;
@@ -151,7 +319,7 @@
                 font-size: 14px;
                 cursor: pointer;
                 margin: 5px 0;
-                &:hover{
+                &:hover {
                   color: black;
                 }
               }
@@ -166,6 +334,7 @@
           span {
             font-size: 12px;
             color: #fff;
+            margin-right: 2px;
           }
         }
         > img {
@@ -205,6 +374,9 @@ export default {
   },
   data() {
     return {
+      send_note: false,
+      send: true,
+      text_val: "",
       home: require("../assets/home.png"),
       home_active: require("../assets/home_active.png"),
       home_src: "/console/home",
@@ -241,12 +413,58 @@ export default {
     };
   },
   methods: {
-    log_off(){
-      localStorage.removeItem("token_id")
-      window.location.reload()
-    }
+    log_off() {
+      localStorage.removeItem("token_id");
+      window.location.reload();
+    },
+    sent_note() {
+      switch (this.send_note) {
+        case true:
+          this.send_note = false;
+          break;
+        case false:
+          this.send_note = true;
+          this.$nextTick(function () {
+            this.$refs.focus.focus();
+          });
+          break;
+      }
+    },
+    send_() {
+      switch (this.send) {
+        case true:
+          // 发送短信api
+          break;
+        case false:
+          this.send_note = false;
+          // 发送短信api
+          break;
+      }
+    },
+  },
+  computed:{
+    teextinfo:function () {
+      return this.text_val;
+    },
   },
   mounted() {
+    let select = this.$refs.select_active;
+    select.addEventListener("click", () => {
+      this.text_val = event.target.value;
+    });
+    let change = this.$refs.change;
+    change.addEventListener("click", () => {
+      switch (this.send) {
+        case true:
+          change.style.background = "var(--default)";
+          this.send = false;
+          break;
+        case false:
+          change.style.background = "none";
+          this.send = true;
+          break;
+      }
+    });
     let right_name = document.getElementsByClassName("right_name");
     let status = true;
     right_name[0].addEventListener("click", () => {
