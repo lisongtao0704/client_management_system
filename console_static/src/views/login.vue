@@ -17,7 +17,7 @@
                   v-focus
                   ref="tel"
                 />
-                <div v-show="!id_bool">账号格式不正确</div>
+                <div v-show="!id_bool">账号有误</div>
                 <br />
                 <input
                   type="password"
@@ -31,10 +31,69 @@
               </div>
             </div>
             <div class="register" onselectstart="return false">
-              <el-button type="text" @click="open_login"
-                >还没有账号？<span>立即注册</span></el-button
+              <el-button type="text" @click="dialogFormVisible = true"
+                >还没有账号？立即注册</el-button
               >
-              <el-button type="text" @click="open_pw">忘记密码</el-button>
+
+              <el-dialog
+                @opened="open_login"
+                top="40px"
+                title="新用户注册"
+                :visible.sync="dialogFormVisible"
+              >
+                <el-form :model="form">
+                  <el-form-item label="昵称" :label-width="formLabelWidth">
+                    <el-input
+                      placeholder="长度不超过5昵称"
+                      maxlength="5"
+                      ref="name"
+                      v-model="form.name"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="手机号码" :label-width="formLabelWidth">
+                    <el-input
+                      placeholder="请输入11位手机号码"
+                      maxlength="11"
+                      v-model="form.num"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="验证码" :label-width="formLabelWidth">
+                    <el-input
+                      placeholder="六位数验证码"
+                      maxlength="6"
+                      v-model="form.code"
+                      class="code"
+                      autocomplete="off"
+                    ></el-input>
+                    <el-button type="primary">发送验证码</el-button>
+                  </el-form-item>
+                  <el-form-item label="设置密码" :label-width="formLabelWidth">
+                    <el-input
+                      placeholder="输入密码"
+                      v-model="form.pwd"
+                      type="password"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="确认密码" :label-width="formLabelWidth">
+                    <el-input
+                      placeholder="确认输入密码"
+                      v-model="form.pwd_yes"
+                      type="password"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="dialogFormVisible = false"
+                    >取 消</el-button
+                  >
+                  <el-button type="primary" @click="dialogFormVisible = false"
+                    >确 定</el-button
+                  >
+                </div>
+              </el-dialog>
             </div>
           </div>
         </el-main>
@@ -161,6 +220,13 @@
     justify-content: center;
     align-items: center;
   }
+  /deep/.el-dialog {
+    width: 365px;
+    .code {
+      width: 125px;
+      margin-right: 5px;
+    }
+  }
 }
 </style>
 <script>
@@ -168,6 +234,15 @@ import { login } from "../api/index.js";
 export default {
   data() {
     return {
+      dialogFormVisible: false,
+      form: {
+        name: "",
+        num: "",
+        code: "",
+        pwd: "",
+        pwd_yes: "",
+      },
+      formLabelWidth: "70px",
       img: require("../assets/4.png"),
       data: {
         id: "",
@@ -178,14 +253,18 @@ export default {
     };
   },
   methods: {
+    open_login() {
+      console.log(this.$refs.name);
+      this.$refs.name.focus();
+    },
     open_console() {
       this.$refs.tel.addEventListener("keyup", () => {
         this.id_bool = /^1[3456789]\d{9}$/.test(this.data.id);
       });
       this.$refs.pwd.addEventListener("keyup", () => {
-       if(this.data.pwd){
+        if (this.data.pwd) {
           this.pwd_bool = false;
-        }else{
+        } else {
           this.pwd_bool = true;
         }
       });
@@ -195,6 +274,8 @@ export default {
           if (res.data.code) {
             localStorage.token_id = res.data.token_id;
             this.$router.push("/console");
+          } else {
+            alert("账号或密码错误");
           }
           console.log("登录响应", res);
         });
@@ -205,35 +286,11 @@ export default {
           this.id_bool = false;
         }
         if (this.data.pwd) {
-          this.pwd_bool = false
+          this.pwd_bool = false;
         } else {
           this.pwd_bool = true;
         }
       }
-    },
-    open_login() {
-      this.$alert("暂不支持", "注册用户", {
-        confirmButtonText: "确定",
-        closeOnClickModal: true,
-        // callback: (action) => {
-        //   this.$message({
-        //     type: "success",
-        //     message: `action: ${action}`,
-        //   });
-        // },
-      });
-    },
-    open_pw() {
-      this.$alert("暂不支持", "找回密码", {
-        confirmButtonText: "确定",
-        closeOnClickModal: true,
-        // callback: (action) => {
-        //   this.$message({
-        //     type: "success",
-        //     message: `action: ${action}`,
-        //   });
-        // },
-      });
     },
   },
   mounted() {

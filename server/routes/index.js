@@ -19,7 +19,8 @@ router.post('/login', urlencodedParser,function (req, res) {
      res.send({'code':true,'token_id':user_info.service_id})
      res.end();
    }else{
-    res.end("登录信息有误");
+    res.send({'code':false,'login_way':"登录信息错误"});
+    res.end();
    }
    }
 })
