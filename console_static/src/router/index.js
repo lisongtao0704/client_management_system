@@ -26,37 +26,43 @@ const routes = [
         path: "home",
         name: "Homepage",
         component: () => import("../views/console_child/home.vue"),
-        redirect:"/console/home/myList",
+        redirect: "/console/home/myList",
         children: [
           {
             path: "myList",
             name: "MyList",
-            component: () => import("../views/console_child/home_child/myList.vue"),
+            component: () =>
+              import("../views/console_child/home_child/myList.vue"),
           },
           {
             path: "callMonitoring",
             name: "CallMonitoring",
-            component: () => import("../views/console_child/home_child/callMonitoring.vue"),
+            component: () =>
+              import("../views/console_child/home_child/callMonitoring.vue"),
           },
           {
             path: "myCall",
             name: "MyCall",
-            component: () => import("../views/console_child/home_child/myCall.vue"),
+            component: () =>
+              import("../views/console_child/home_child/myCall.vue"),
           },
           {
             path: "myReceive",
             name: "MyReceive",
-            component: () => import("../views/console_child/home_child/myReceive.vue"),
+            component: () =>
+              import("../views/console_child/home_child/myReceive.vue"),
           },
           {
             path: "onLineMonitoring",
             name: "OnLineMonitoring",
-            component: () => import("../views/console_child/home_child/onLineMonitoring.vue"),
+            component: () =>
+              import("../views/console_child/home_child/onLineMonitoring.vue"),
           },
           {
             path: "serviceMonitor",
             name: "ServiceMonitor",
-            component: () => import("../views/console_child/home_child/serviceMonitor.vue"),
+            component: () =>
+              import("../views/console_child/home_child/serviceMonitor.vue"),
           },
         ],
       },
@@ -99,6 +105,19 @@ const routes = [
         path: "set",
         name: "Setpage",
         component: () => import("../views/console_child/set.vue"),
+        redirect:"/console/set/themeColor",
+        children: [
+          {
+            path: "themeColor",
+            name: "ThemeColor",
+            component: () => import("../views/console_child/set_child/theme_color.vue"),
+          },
+          {
+            path: "serviceSet",
+            name: "ServiceSet",
+            component: () => import("../views/console_child/set_child/service_set.vue"),
+          },
+        ],
       },
       {
         path: "monitor",

@@ -43,6 +43,11 @@
 </style>
 <script>
 export default {
-    name:"Clientpage"
+    name:"Clientpage",
+    mounted () {
+      if(window.location.pathname.startsWith("/console/client")){
+    document.getElementsByClassName("left_icon")[5].style.background="var(--active)"
+  }
+    }
 }
 </script>

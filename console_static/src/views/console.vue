@@ -378,6 +378,7 @@
 
 <script>
 import leftIcon from "@/components/console_left_icon.vue";
+import console_left_iconVue from '../components/console_left_icon.vue';
 
 export default {
   name: "Console",
@@ -504,7 +505,6 @@ export default {
     });
     let nav_left = this.$refs.nav_left;
     let nav_left_icon = document.getElementsByClassName("left_icon");
-    nav_left_icon[0].style.background = "var(--active)";
     nav_left.addEventListener(
       "click",
       (enent) => {

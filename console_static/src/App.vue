@@ -1,12 +1,30 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  // mounted () {
+  //   this.$refs.app.style.cssText=`' --default':${}`
+  // },
+  // data(){
+  //   return {
+  //     b:this.$store.default_
+  //   }
+  // },
+  computed:{
+    a:function(){
+      return this.$store.state.default_+this.$store.state.nav_bg+this.$store.state.active+this.$store.state.list_bg_active+this.$store.state.list_hover
+    }
+  },
+  watch:{
+    a:function(){
+        this.$refs.app.style.cssText=`--default:${this.$store.state.default_};--nav_bg:${this.$store.state.nav_bg};--active:${this.$store.state.active};--list_bg_active:${this.$store.state.list_bg_active}; --list_hover:${this.$store.state.list_hover}`
+    }
+  }
 };
 </script>
 
@@ -16,7 +34,7 @@ export default {
   --nav_bg: #3d4966;
   --active: #192948;
   --list_bg_active: #f0f3fb;
-  --list_hover:#f0f3fba3;
+  --list_hover: #f0f3fba3;
 }
 #app {
   background-color: #f7fafa;
@@ -25,17 +43,17 @@ export default {
   min-width: 1260px;
   min-height: 616px;
 }
-*::-webkit-scrollbar{
+*::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
-*::-webkit-scrollbar-track{
+*::-webkit-scrollbar-track {
   background: var(--list_bg_active);
   border-radius: 2px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background:#D8DFF0;
+  background: #d8dff0;
   border-radius: 10px;
 }
 

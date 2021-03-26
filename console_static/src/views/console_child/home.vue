@@ -53,7 +53,7 @@
         font-size: 14px;
         list-style: none;
         &:hover{
-          background-color: var(--list_hover);
+          background-color: var(--list_hover) !important;
         }
         &:hover a{
           color:var(--default);
@@ -101,6 +101,9 @@ export default {
         event.target.parentElement.style.background="var(--list_bg_active)"
       }
     })
+  if(window.location.pathname.startsWith("/console/home")){
+    document.getElementsByClassName("left_icon")[0].style.background="var(--active)"
+  }
   }
 };
 </script>
