@@ -16,6 +16,7 @@ export default {
   --nav_bg: #3d4966;
   --active: #192948;
   --list_bg_active: #f0f3fb;
+  --list_hover:#f0f3fba3;
 }
 #app {
   background-color: #f7fafa;

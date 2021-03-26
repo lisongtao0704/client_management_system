@@ -44,7 +44,7 @@
                 <el-form :model="form">
                   <el-form-item label="昵称" :label-width="formLabelWidth">
                     <el-input
-                      placeholder="长度不超过5昵称"
+                      placeholder="长度不超过5的昵称"
                       maxlength="5"
                       ref="name"
                       v-model="form.name"

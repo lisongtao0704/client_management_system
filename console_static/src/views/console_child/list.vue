@@ -177,7 +177,9 @@
         line-height: 28px;
         font-size: 14px;
         list-style: none;
-
+ &:hover{
+          background-color: var(--list_hover);
+        }
         &:hover a {
           color: var(--default);
         }

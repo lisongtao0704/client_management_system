@@ -25,7 +25,6 @@
               <option value="大家好">大家好</option>
             </select>
             <textarea rows="10" cols="30" v-model="text_val">
-                    {{ teextinfo }}
             </textarea>
             <p>{{ text_val.length }}字</p>
             <img src="../assets/勾.png" ref="change" /><span
