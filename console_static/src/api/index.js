@@ -16,4 +16,13 @@ export const login = data => {
       data
     })
   }
+
+  export const sign = data => {
+    return request({
+      'Content-Type': 'application/json;charset=utf-8',
+      method: 'POST',
+      url: '/sign',
+      data
+    })
+  }
 //工单信息 

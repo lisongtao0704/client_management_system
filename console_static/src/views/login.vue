@@ -88,18 +88,14 @@
                       type="password"
                       autocomplete="off"
                     ></el-input>
-                    <p ref="pwd_verify" class="pwd_verify">
-                      两次密码不一致
-                    </p>
+                    <p ref="pwd_verify" class="pwd_verify">两次密码不一致</p>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                   <el-button @click="dialogFormVisible = false"
                     >取 消</el-button
                   >
-                  <el-button type="primary" @click="dialogFormVisible = false"
-                    >确 定</el-button
-                  >
+                  <el-button type="primary" @click="sign">确 定</el-button>
                 </div>
               </el-dialog>
             </div>
@@ -258,11 +254,12 @@
 }
 </style>
 <script>
-import { login } from "../api/index.js";
+import { login, sign } from "../api/index.js";
 export default {
   data() {
     return {
       dialogFormVisible: false,
+      sign_status: true,
       form: {
         name: "",
         num: "",
@@ -284,31 +281,66 @@ export default {
     a: function () {
       return this.form.num;
     },
-    b:function() {
+    b: function () {
       return this.form.pwd_yes;
-    }
+    },
   },
   watch: {
     a: function () {
       if (this.form.num) {
         if (/^1[3456789]\d{9}$/.test(this.form.num)) {
           this.$refs.num_verify.style.display = "none";
-        }else{
+        } else {
           this.$refs.num_verify.style.display = "block";
         }
-      } else {
-        this.$refs.num_verify.style.display = "block";
       }
     },
-    b:function(){
-      if(this.form.pwd_yes!=this.form.pwd){
+    b: function () {
+      if (this.form.pwd_yes != this.form.pwd) {
         this.$refs.pwd_verify.style.display = "block";
-      }else{
+      } else {
         this.$refs.pwd_verify.style.display = "none";
       }
-    }
+    },
   },
   methods: {
+    sign() {
+      this.sign_status = true;
+      let key;
+      for (key in this.form) {
+        if (!this.form[key]) {
+          this.sign_status = false;
+        }
+      }
+      if (!this.sign_status) {
+        alert("注册失败，请检查信息是否输入正确");
+      } else {
+        if (
+          this.form.name &&
+          /^1[3456789]\d{9}$/.test(this.form.num) &&
+          this.form.code == 1024 &&
+          this.form.pwd == this.form.pwd_yes
+        ) {
+          sign(this.form).then((res) => {
+            console.log("注册响应", res);
+            if (res.data.sign == "手机号已被注册") {
+              alert("手机号已被注册");
+              return
+            } else {
+              alert("注册成功");
+              return (this.dialogFormVisible = false);
+            }
+          });
+          for (key in this.form) {
+            if (this.form[key]) {
+              this.form[key] = "";
+            }
+          }
+        } else {
+          alert("请检查信息是否有误");
+        }
+      }
+    },
     send_code() {
       if (/^1[3456789]\d{9}$/.test(this.form.num)) {
         alert(`您好，您${this.form.num}的手机验证码为：1024`);
@@ -357,7 +389,6 @@ export default {
     },
   },
   mounted() {
-    // 轮播图片
     setInterval(() => {
       let bg = this.$refs.bg;
       if (this.img == require("../assets/4.png")) {
