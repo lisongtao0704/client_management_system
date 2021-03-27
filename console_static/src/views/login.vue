@@ -57,6 +57,9 @@
                       v-model="form.num"
                       autocomplete="off"
                     ></el-input>
+                    <p ref="num_verify" class="num_verify">
+                      手机号码格式不正确
+                    </p>
                   </el-form-item>
                   <el-form-item label="验证码" :label-width="formLabelWidth">
                     <el-input
@@ -66,7 +69,9 @@
                       class="code"
                       autocomplete="off"
                     ></el-input>
-                    <el-button type="primary">发送验证码</el-button>
+                    <el-button @click="send_code" type="primary"
+                      >发送验证码</el-button
+                    >
                   </el-form-item>
                   <el-form-item label="设置密码" :label-width="formLabelWidth">
                     <el-input
@@ -83,6 +88,9 @@
                       type="password"
                       autocomplete="off"
                     ></el-input>
+                    <p ref="pwd_verify" class="pwd_verify">
+                      两次密码不一致
+                    </p>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -150,20 +158,21 @@
           color: #000;
           outline: unset;
           margin-bottom: 30px;
-          background-color: rgb(232, 240, 254);
+          background-color: var(--list_bg_active);
           padding: 1px 15px;
           box-sizing: border-box;
         }
         input[type="submit"] {
-          border: 1px solid #09aeb0;
+          border: 1px solid var(--default);
           font-size: 20px;
           margin: 10px auto 0;
           color: #fefffd;
-          background-color: #09aeb0;
+          background-color: var(--default);
         }
         input[type="submit"]:hover {
-          background-color: #0aced1;
-          border: 1px solid #0aced1;
+          background-color: var(--default);
+          border: 1px solid var(--default);
+          opacity: 0.9;
           cursor: pointer;
         }
       }
@@ -222,10 +231,29 @@
   }
   /deep/.el-dialog {
     width: 365px;
+    position: relative;
     .code {
       width: 125px;
       margin-right: 5px;
     }
+  }
+  .num_verify {
+    color: red;
+    position: absolute;
+    display: none;
+    font-size: 12px;
+    font-weight: 300;
+    top: 30px;
+    right: 0;
+  }
+  .pwd_verify {
+    color: red;
+    position: absolute;
+    display: none;
+    font-size: 12px;
+    font-weight: 300;
+    top: 30px;
+    right: 0;
   }
 }
 </style>
@@ -252,7 +280,42 @@ export default {
       pwd_bool: false,
     };
   },
+  computed: {
+    a: function () {
+      return this.form.num;
+    },
+    b:function() {
+      return this.form.pwd_yes;
+    }
+  },
+  watch: {
+    a: function () {
+      if (this.form.num) {
+        if (/^1[3456789]\d{9}$/.test(this.form.num)) {
+          this.$refs.num_verify.style.display = "none";
+        }else{
+          this.$refs.num_verify.style.display = "block";
+        }
+      } else {
+        this.$refs.num_verify.style.display = "block";
+      }
+    },
+    b:function(){
+      if(this.form.pwd_yes!=this.form.pwd){
+        this.$refs.pwd_verify.style.display = "block";
+      }else{
+        this.$refs.pwd_verify.style.display = "none";
+      }
+    }
+  },
   methods: {
+    send_code() {
+      if (/^1[3456789]\d{9}$/.test(this.form.num)) {
+        alert(`您好，您${this.form.num}的手机验证码为：1024`);
+      } else {
+        alert("请输入正确的手机号码");
+      }
+    },
     open_login() {
       console.log(this.$refs.name);
       this.$refs.name.focus();

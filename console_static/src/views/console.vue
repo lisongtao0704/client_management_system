@@ -24,7 +24,7 @@
               <option value="我好">我好</option>
               <option value="大家好">大家好</option>
             </select>
-            <textarea rows="10" cols="30" v-model="text_val">
+            <textarea maxlength="400" rows="10" cols="30" v-model="text_val">
             </textarea>
             <p>{{ text_val.length }}字</p>
             <img src="../assets/勾.png" ref="change" /><span
@@ -455,10 +455,20 @@ export default {
       switch (this.send) {
         case true:
           // 发送短信api
+          if(this.num_bool){
+            alert("（无短信api）/模拟发送成功")
+          }else{
+             alert("（无短信api）/模拟发送失败，请输入手机号试试。")
+          }
           break;
         case false:
           this.send_note = false;
           // 发送短信api
+          if(this.num_bool){
+            alert("（无短信api）/模拟发送成功")
+          }else{
+             alert("（无短信api）/模拟发送失败，请输入手机号试试。")
+          }
           break;
       }
     },
