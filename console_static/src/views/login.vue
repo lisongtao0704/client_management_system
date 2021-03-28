@@ -349,7 +349,6 @@ export default {
       }
     },
     open_login() {
-      console.log(this.$refs.name);
       this.$refs.name.focus();
     },
     open_console() {

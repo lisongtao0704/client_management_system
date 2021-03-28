@@ -42,7 +42,7 @@
             </button>
           </div>
         </div>
-        <div><img src="../assets/客服.png" /><span>客服工作台</span></div>
+        <div onclick="window.open('http://localhost:8200/')"><img src="../assets/客服.png" /><span>客服工作台</span></div>
         <div>
           <img src="../assets/头像.png" />
           <div class="right_name">

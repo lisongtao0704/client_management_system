@@ -13,6 +13,10 @@ connection.connect(function(err) {
     return;
   }
 });
+router.get('/',function(req,res){
+  res.send("客户全生命周期管理系统————诵焘");
+  res.end();
+})
 router.post('/login', urlencodedParser,function (req, res) {
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
@@ -78,8 +82,7 @@ router.post('/sign', urlencodedParser,function (req, res) {
   let db_num=`SELECT * FROM service_info WHERE service_number=${response.service_num}`
   connection.query(db_num, function (error, results, fields) {
     if (error) throw error;
-    console.log("11111111222222222222",results)
-    if(results){
+    if(results[0]){
       res.send({'sign':"手机号已被注册"})
       res.end();
     }else{
