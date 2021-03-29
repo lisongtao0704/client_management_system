@@ -42,7 +42,9 @@
             </button>
           </div>
         </div>
-        <div onclick="window.open('http://localhost:8200/')"><img src="../assets/客服.png" /><span>客服工作台</span></div>
+        <div @click="work_admin">
+          <img src="../assets/客服.png" /><span>客服工作台</span>
+        </div>
         <div>
           <img src="../assets/头像.png" />
           <div class="right_name">
@@ -378,7 +380,7 @@
 
 <script>
 import leftIcon from "@/components/console_left_icon.vue";
-import console_left_iconVue from '../components/console_left_icon.vue';
+import console_left_iconVue from "../components/console_left_icon.vue";
 
 export default {
   name: "Console",
@@ -392,6 +394,7 @@ export default {
       text_val: "",
       num_bool: true,
       num: "",
+      win:null,
       home: require("../assets/home.png"),
       home_active: require("../assets/home_active.png"),
       home_src: "/console/home",
@@ -428,11 +431,22 @@ export default {
     };
   },
   watch: {
-    num:function(){
-      this.num_bool=/^1[3456789]\d{9}$/.test(this.num);
-    }
+    num: function () {
+      this.num_bool = /^1[3456789]\d{9}$/.test(this.num);
+    },
   },
   methods: {
+    work_admin() {
+      if (!this.win) {
+        this.win = window.open("http://localhost:8200/");
+      } else {
+        if(this.win.closed){
+          this.win = window.open("http://localhost:8200/");
+        }else{
+            alert("窗口已打开")
+        }
+      }
+    },
     log_off() {
       localStorage.removeItem("token_id");
       window.location.reload();
@@ -455,19 +469,19 @@ export default {
       switch (this.send) {
         case true:
           // 发送短信api
-          if(this.num_bool){
-            alert("（无短信api）/模拟发送成功")
-          }else{
-             alert("（无短信api）/模拟发送失败，请输入手机号试试。")
+          if (this.num_bool) {
+            alert("（无短信api）/模拟发送成功");
+          } else {
+            alert("（无短信api）/模拟发送失败，请输入手机号试试。");
           }
           break;
         case false:
           this.send_note = false;
           // 发送短信api
-          if(this.num_bool){
-            alert("（无短信api）/模拟发送成功")
-          }else{
-             alert("（无短信api）/模拟发送失败，请输入手机号试试。")
+          if (this.num_bool) {
+            alert("（无短信api）/模拟发送成功");
+          } else {
+            alert("（无短信api）/模拟发送失败，请输入手机号试试。");
           }
           break;
       }
