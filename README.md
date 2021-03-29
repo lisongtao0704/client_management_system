@@ -1,1 +1,24 @@
-# client_management_system
+---
+
+---
+
+# 客户生命周期管理系统
+
+`git clone`仓库到本地，你将会得到一个`system`文件夹
+
+#### 项目启动：
+
+1. 分别进入`console_static、chat_admins、server`文件中，命令行输入`yarn`安装项目依赖
+
+2. 将`mysql`文件夹中的`service_info.sql`表导入您的数据库中，并进入到`server>database>dbConfig.js`中修改个人数据库信息 （如下图） ,分别将`user，password,database`字段值更改为自己的数据库账号，密码，和数据库名。在`server`文件夹下打开`cmd`运行`yarn start`既可开启`node`后台
+
+   [![c9cD8U.png](https://z3.ax1x.com/2021/03/29/c9cD8U.png)](https://imgtu.com/i/c9cD8U)
+
+   [![c9cr2F.png](https://z3.ax1x.com/2021/03/29/c9cr2F.png)](https://imgtu.com/i/c9cr2F
+
+3. 进入到`console_static`文件夹中，命令行输入`yarn serve`启动项目控制台部分
+
+4. 进入到`chat_admins`文件夹中，命令行输入`yarn serve`启动项目工作台部分
+
+
+
