@@ -14,7 +14,7 @@
 
    [![c9cD8U.png](https://z3.ax1x.com/2021/03/29/c9cD8U.png)](https://imgtu.com/i/c9cD8U)
 
-   [![c9cr2F.png](https://z3.ax1x.com/2021/03/29/c9cr2F.png)](https://imgtu.com/i/c9cr2F
+   [![c9cr2F.png](https://z3.ax1x.com/2021/03/29/c9cr2F.png)](https://imgtu.com/i/c9cr2F)
 
 3. 进入到`console_static`文件夹中，命令行输入`yarn serve`启动项目控制台部分
 

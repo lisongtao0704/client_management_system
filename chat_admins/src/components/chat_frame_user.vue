@@ -1,40 +1,40 @@
 <template>
   <div id="chat">
     <div class="title">
-      <slot name="data"></slot><slot name="service"></slot> 
+      <slot name="service"></slot> <slot name="data"></slot>
     </div>
-    <div class="chat_right"><slot name="chat_main"></slot></div>
+    <div class="chat_left"><slot name="chat_main"></slot></div>
   </div>
 </template>
 <style lang="less" scoped>
 #chat {
   width: 50%;
-  margin-right: 5px;
-  float: right;
+  margin-left: 5px;
+  float:left;
   .title {
-    text-align: right;
-    p:nth-of-type(2) {
+    text-align:left;
+    p:nth-of-type(1) {
       font-size: 16px;
-      margin-left: 5px;
+      margin-right: 5px;
       display: inline;
       color: var(--active);
     }
-    p:nth-of-type(1) {
+    p:nth-of-type(2) {
       display: inline;
       font-size: 12px;
       color: var(--active);
     }
   }
 
-  .chat_right {
+  .chat_left {
     max-width: 240px;
     min-width: 100px;
     min-height: 20px;
-    float: right;
+    float: left;
     text-align: justify;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #2ab00963;
+    background-color: #fff;
     span{
       white-space: pre-wrap;
       word-break: break-all;
@@ -44,6 +44,6 @@
 </style>
 <script>
 export default {
-  name: "chat",
+  name: "chatUser",
 };
 </script>

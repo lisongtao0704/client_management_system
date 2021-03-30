@@ -43,19 +43,29 @@
                 <span>创建工单</span>
               </div>
             </div>
-            <div class="chat">
-              <chat >
-                <p slot="service">是我啊</p>
-                <p slot="data">2019/3/3</p>
-                <span slot="chat_main">我sfskduhfsldhf斯柯达挂号费is度法规is都股份is的广佛is都股份is的发生地覆盖手动古啊</span>
+            <div class="chat" ref="chat">
+              <chat>
+                <p slot="service">{{ nickname }}</p>
+                <p slot="data"></p>
+                <span slot="chat_main">我是内容</span>
               </chat>
+              <chatuser>
+                <p slot="service">客户</p>
+                <p slot="data"></p>
+                <span slot="chat_main">我是内容</span>
+              </chatuser>
             </div>
             <div class="chat_send">
               <div class="test">
                 <img src="../assets/icon.png" />
               </div>
               <div class="chat_me">
-                <div contenteditable="true"></div>
+                <div ref="content" contenteditable="true" v-focus></div>
+              </div>
+              <div class="sendBtn">
+                <span>快捷键:ctrl+enter发送</span
+                ><span v-show="empty">发送内容不能为空</span>
+                <button ref="send" @click="send">发送</button>
               </div>
             </div>
           </el-main>
@@ -219,18 +229,27 @@
       }
     }
     .chat {
-      height: 55%;
+      height: 305px;
+      overflow: auto;
+      div:nth-of-type(1) {
+        display: none;
+      }
+      @media screen and (min-height: 648px) {
+        height: 320px;
+      }
       width: 100%;
       border-top: 1px solid #ebebeb;
       border-bottom: 1px solid #ebebeb;
-      
     }
     .chat_send {
       height: 37%;
       width: 100%;
       .chat_me {
         overflow: auto;
-        height: 83%;
+        height: 122px;
+        @media screen and (min-height: 648px) {
+          height: 132px;
+        }
         div {
           padding: 0 20px;
           box-sizing: border-box;
@@ -241,7 +260,36 @@
           text-align: left;
         }
       }
-
+      .sendBtn {
+        text-align: right;
+        padding: 0 20px;
+        position: relative;
+        span {
+          font-size: 12px;
+          vertical-align: bottom;
+          margin-right: 5px;
+          color: #808080d4;
+        }
+        span:nth-of-type(2) {
+          position: absolute;
+          color: red;
+          top: -15px;
+        }
+        button {
+          border: none;
+          background: var(--default);
+          width: 100px;
+          padding: 10px 5px;
+          border-radius: 5px;
+          outline: none;
+          font-size: 16px;
+          color: #fff;
+          &:hover {
+            cursor: pointer;
+            opacity: 0.7;
+          }
+        }
+      }
       .test {
         text-align: left;
         height: 17%;
@@ -257,17 +305,52 @@
 
 <script>
 import chat from "../components/chat_frame";
+import chatuser from "../components/chat_frame_user";
 export default {
   name: "Home",
   components: {
     chat,
+    chatuser,
   },
   data() {
     return {
       session_list: true,
+      nickname: "lison",
+      timeme: 11111,
+      timeuser: 11111,
+      empty: false,
+      // chatContent:"sfsdgsdfg",
     };
   },
+  mounted() {
+    this.$refs.content.addEventListener("keyup", (event) => {
+      let x = event.which || event.keyCode;
+      if (event.ctrlKey && x == 13) {
+        this.$refs.send.click();
+      }
+    });
+  },
+  computed: {},
   methods: {
+    send() {
+      if (this.$refs.content.innerText.trim()) {
+        this.$refs.chat.appendChild(
+          this.$refs.chat.children[0].cloneNode(true)
+        );
+        let chat_list = this.$refs.chat.children;
+        chat_list[
+          chat_list.length - 1
+        ].children[1].children[0].innerText = this.$refs.content.innerText;
+        this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight + 10;
+        this.$refs.content.innerText = "";
+        this.$nextTick(() => {this.$refs.chat.children[this.$refs.chat.children.length-1].children[0].children[0].innerText=new Date().format("YYYY-MM-DD hh:mm:ss");});
+      } else {
+        this.empty = true;
+        setTimeout(() => {
+          this.empty = false;
+        }, 500);
+      }
+    },
     session() {
       this.$refs.session.style.cssText =
         " background-color: var(--default); color: #fff;cursor: context-menu;";
