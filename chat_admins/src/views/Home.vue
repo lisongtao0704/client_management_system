@@ -43,7 +43,13 @@
                 <span>创建工单</span>
               </div>
             </div>
-            <div class="chat"></div>
+            <div class="chat">
+              <chat >
+                <p slot="service">是我啊</p>
+                <p slot="data">2019/3/3</p>
+                <span slot="chat_main">我sfskduhfsldhf斯柯达挂号费is度法规is都股份is的广佛is都股份is的发生地覆盖手动古啊</span>
+              </chat>
+            </div>
             <div class="chat_send">
               <div class="test">
                 <img src="../assets/icon.png" />
@@ -197,9 +203,9 @@
       align-items: center;
       background-color: var(--list_hover);
       .work_list {
-        opacity: .7;
+        opacity: 0.7;
         margin-right: 8px;
-        &:hover{
+        &:hover {
           cursor: pointer;
           opacity: 1;
         }
@@ -217,6 +223,7 @@
       width: 100%;
       border-top: 1px solid #ebebeb;
       border-bottom: 1px solid #ebebeb;
+      
     }
     .chat_send {
       height: 37%;
@@ -249,8 +256,12 @@
 </style>
 
 <script>
+import chat from "../components/chat_frame";
 export default {
   name: "Home",
+  components: {
+    chat,
+  },
   data() {
     return {
       session_list: true,

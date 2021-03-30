@@ -380,7 +380,6 @@
 
 <script>
 import leftIcon from "@/components/console_left_icon.vue";
-import console_left_iconVue from "../components/console_left_icon.vue";
 
 export default {
   name: "Console",
