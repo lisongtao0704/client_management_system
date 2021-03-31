@@ -306,6 +306,7 @@
 <script>
 import chat from "../components/chat_frame";
 import chatuser from "../components/chat_frame_user";
+import { chatInfo } from "../api/index.js";
 export default {
   name: "Home",
   components: {
@@ -319,10 +320,26 @@ export default {
       timeme: 11111,
       timeuser: 11111,
       empty: false,
+      chat_info:null,
       // chatContent:"sfsdgsdfg",
     };
   },
   mounted() {
+     chatInfo({status:true}).then((res)=>{
+       console.log("初始化历史记录",res)
+       this.chat_info=res.data.data
+     })
+     let that=this
+    function fn(){
+      chatInfo().then((res) => {
+        setTimeout(() => {
+          fn()
+          that.chat_info=res.data.data
+          console.log("长轮询",res)
+        }, 500);
+    });
+    }
+    fn()
     this.$refs.content.addEventListener("keyup", (event) => {
       let x = event.which || event.keyCode;
       if (event.ctrlKey && x == 13) {
@@ -343,7 +360,13 @@ export default {
         ].children[1].children[0].innerText = this.$refs.content.innerText;
         this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight + 10;
         this.$refs.content.innerText = "";
-        this.$nextTick(() => {this.$refs.chat.children[this.$refs.chat.children.length-1].children[0].children[0].innerText=new Date().format("YYYY-MM-DD hh:mm:ss");});
+        this.$nextTick(() => {
+          this.$refs.chat.children[
+            this.$refs.chat.children.length - 1
+          ].children[0].children[0].innerText = new Date().format(
+            "YYYY-MM-DD hh:mm:ss"
+          );
+        });
       } else {
         this.empty = true;
         setTimeout(() => {

@@ -98,4 +98,34 @@ router.post('/sign', urlencodedParser,function (req, res) {
   });
   
 })
+let id=0
+router.post("/chat",urlencodedParser,function(req,res){
+
+  var connection=mysql.createConnection(dbConfig.mysql)
+  connection.connect();
+
+  let chat="select id from (select * from chat_info order by id DESC limit 1) a"
+  let timeOut=setInterval(() => {
+    connection.query(chat,function(error, results, fields){
+      if(results[0].id){
+      if(id<results[0].id||req.body.status) {
+      id=results[0].id
+      let chat_all="select * from chat_info"
+        connection.query(chat_all,function(error, results, fields){
+        res.send({status:true,data:results})
+        res.end()
+        clearInterval(timeOut)
+      })
+
+
+    }else{
+      id=results[0].id
+    }
+      }
+    
+  })
+  }, 500);
+
+  
+})
 module.exports = router;

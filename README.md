@@ -10,7 +10,7 @@
 
 1. 分别进入`console_static、chat_admins、server`文件中，命令行输入`yarn`安装项目依赖
 
-2. 将`mysql`文件夹中的`service_info.sql`表导入您的数据库中，并进入到`server>database>dbConfig.js`中修改个人数据库信息 （如下图） ,分别将`user，password,database`字段值更改为自己的数据库账号，密码，和数据库名。在`server`文件夹下打开`cmd`运行`yarn start`既可开启`node`后台
+2. 将`mysql`文件夹中的`service_info.sql`表导入您的数据库中，并进入到`server>database>dbConfig.js`中修改个人数据库信息 （如下图） ,分别将`user，password,database`字段值更改为自己的数据库账号，密码，和数据库名。在`server`文件夹下打开`cmd`运行`yarn start`或者`node app.js`既可开启`node`后台
 
    [![c9cD8U.png](https://z3.ax1x.com/2021/03/29/c9cD8U.png)](https://imgtu.com/i/c9cD8U)
 

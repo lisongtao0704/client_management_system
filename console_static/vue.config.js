@@ -1,7 +1,7 @@
 module.exports = {
   lintOnSave: false,
   devServer: {
-    // port: 8081,
+    port: 8082,
   },
   css: {
     sourceMap: true,

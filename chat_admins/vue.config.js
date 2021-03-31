@@ -3,4 +3,7 @@ module.exports = {
   devServer: {
     port: 8200,
   },
+  css: {
+    sourceMap: true,
+  }
 };

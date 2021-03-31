@@ -63,14 +63,14 @@
                   </el-form-item>
                   <el-form-item label="验证码" :label-width="formLabelWidth">
                     <el-input
-                      placeholder="六位数验证码"
+                      placeholder="四位数验证码"
                       maxlength="6"
                       v-model="form.code"
                       class="code"
                       autocomplete="off"
                     ></el-input>
                     <el-button @click="send_code" type="primary"
-                      >发送验证码</el-button
+                      >获取验证码</el-button
                     >
                   </el-form-item>
                   <el-form-item label="设置密码" :label-width="formLabelWidth">
@@ -337,7 +337,11 @@ export default {
             }
           }
         } else {
-          alert("请检查信息是否有误");
+          if(this.form.code != 1024){
+            alert("验证码错误,请获取验证码")
+          }else{
+            alert("请检查信息是否有误");
+          }
         }
       }
     },
