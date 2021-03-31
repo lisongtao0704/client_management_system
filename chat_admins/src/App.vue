@@ -1,13 +1,46 @@
 <template>
-  <div id="app">
+  <div ref="app" id="app">
     <router-view />
   </div>
 </template>
 
 <script>
+import { serviceConfig } from "./api/index.js";
 export default {
   name: "app",
-  components: {},
+  beforeCreate() {
+    // document.addEventListener("visibilitychange", function () {
+    //   if (document.visibilityState == "hidden") {
+    //   } else if (document.visibilityState == "visible") {
+    //     // location.reload()
+    //   }
+    // });
+    serviceConfig().then((res) => {
+      let resdata = res.data[0];
+      this.$store.commit("default_change", resdata.defaultColor);
+      this.$store.commit("nav_bg_change", resdata.nav_bg);
+      this.$store.commit("active_change", resdata.active);
+      this.$store.commit("list_bg_active_change", resdata.list_bg_active);
+      this.$store.commit("list_hover_change", resdata.list_hover);
+      this.$store.commit("nickname_change", resdata.service);
+    });
+  },
+  computed: {
+    a: function () {
+      return (
+        this.$store.state.default_ +
+        this.$store.state.nav_bg +
+        this.$store.state.active +
+        this.$store.state.list_bg_active +
+        this.$store.state.list_hover
+      );
+    },
+  },
+  watch: {
+    a: function () {
+      this.$refs.app.style.cssText = `--default:${this.$store.state.default_};--nav_bg:${this.$store.state.nav_bg};--active:${this.$store.state.active};--list_bg_active:${this.$store.state.list_bg_active}; --list_hover:${this.$store.state.list_hover}`;
+    },
+  },
 };
 </script>
 

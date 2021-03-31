@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { colorConfig } from "./api/index.js";
 export default {
   name: "app",
   // mounted () {
@@ -15,16 +16,31 @@ export default {
   //     b:this.$store.default_
   //   }
   // },
-  computed:{
-    a:function(){
-      return this.$store.state.default_+this.$store.state.nav_bg+this.$store.state.active+this.$store.state.list_bg_active+this.$store.state.list_hover
-    }
+  mounted() {
+    colorConfig().then((res) => {
+      this.$store.commit('default_change', res.data[0].defaultColor)
+      this.$store.commit('nav_bg_change', res.data[0].nav_bg)
+      this.$store.commit('active_change', res.data[0].active)
+      this.$store.commit('list_bg_active_change', res.data[0].list_bg_active)
+      this.$store.commit('list_hover_change', res.data[0].list_hover)
+    });
   },
-  watch:{
-    a:function(){
-        this.$refs.app.style.cssText=`--default:${this.$store.state.default_};--nav_bg:${this.$store.state.nav_bg};--active:${this.$store.state.active};--list_bg_active:${this.$store.state.list_bg_active}; --list_hover:${this.$store.state.list_hover}`
-    }
-  }
+  computed: {
+    a: function () {
+      return (
+        this.$store.state.default_ +
+        this.$store.state.nav_bg +
+        this.$store.state.active +
+        this.$store.state.list_bg_active +
+        this.$store.state.list_hover
+      );
+    },
+  },
+  watch: {
+    a: function () {
+      this.$refs.app.style.cssText = `--default:${this.$store.state.default_};--nav_bg:${this.$store.state.nav_bg};--active:${this.$store.state.active};--list_bg_active:${this.$store.state.list_bg_active}; --list_hover:${this.$store.state.list_hover}`;
+    },
+  },
 };
 </script>
 

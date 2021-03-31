@@ -17,6 +17,7 @@ router.get('/',function(req,res){
   res.send("客户全生命周期管理系统————诵焘");
   res.end();
 })
+//登录
 router.post('/login', urlencodedParser,function (req, res) {
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
@@ -57,7 +58,6 @@ if(response.service_id){
     connection.query(token, function (error, results, fields) {
       if (error) throw error;
       let token_id=results[0].service_id
-      console.log(token_id)
       if(response.service_token==token_id){
         res.send({'code':true,'login_way':"token验证成功"});
         res.end();
@@ -70,6 +70,7 @@ if(response.service_id){
 }
 
 })
+//注册
 router.post('/sign', urlencodedParser,function (req, res) {
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
@@ -99,6 +100,7 @@ router.post('/sign', urlencodedParser,function (req, res) {
   
 })
 let id=0
+//客户聊天
 router.post("/chat",urlencodedParser,function(req,res){
 
   var connection=mysql.createConnection(dbConfig.mysql)
@@ -115,6 +117,7 @@ router.post("/chat",urlencodedParser,function(req,res){
         res.send({status:true,data:results})
         res.end()
         clearInterval(timeOut)
+        connection.end();
       })
 
 
@@ -127,5 +130,26 @@ router.post("/chat",urlencodedParser,function(req,res){
   }, 500);
 
   
+})
+//主题配置颜色
+router.post("/serviceConfig",urlencodedParser,function(req,res){
+  var connection=mysql.createConnection(dbConfig.mysql)
+  connection.connect();
+  console.log(req.body)
+  if(req.body.state=='change'){
+    let configinfoColor=`update service_config set ${req.body.color}='${req.body.colorVal}'`
+    console.log(configinfoColor)
+    connection.query(configinfoColor,function(){
+      res.send()
+      res.end()
+    })
+  }else{
+     let configinfo="select * from service_config"
+    connection.query(configinfo,function(error, results, fields){
+      console.log(888888888888888)
+    res.send(results)
+    res.end()
+  })
+  }
 })
 module.exports = router;

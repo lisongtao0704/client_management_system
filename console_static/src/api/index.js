@@ -26,3 +26,12 @@ export const login = data => {
     })
   }
 //工单信息 
+//改变主题颜色
+export const colorConfig = data => {
+  return request({
+    'Content-Type': 'application/json;charset=utf-8',
+    method: 'POST',
+    url: '/serviceConfig',
+    data
+  })
+}

@@ -10,7 +10,7 @@
                 <div>
                   <img src="../assets/头像.png" />
                   <div>
-                    <p>songtao</p>
+                    <p>{{$store.state.nickname}}</p>
                     <p>超级管理员</p>
                   </div>
                 </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="chat" ref="chat">
               <chat>
-                <p slot="service">{{ nickname }}</p>
+                <p slot="service">{{ $store.state.nickname }}</p>
                 <p slot="data"></p>
                 <span slot="chat_main">我是内容</span>
               </chat>
@@ -316,7 +316,6 @@ export default {
   data() {
     return {
       session_list: true,
-      nickname: "lison",
       timeme: 11111,
       timeuser: 11111,
       empty: false,
