@@ -102,13 +102,11 @@ router.post('/sign', urlencodedParser,function (req, res) {
 let id=0
 //客户聊天
 router.post("/chat",urlencodedParser,function(req,res){
-
-  var connection=mysql.createConnection(dbConfig.mysql)
-  connection.connect();
-
   let chat="select id from (select * from chat_info order by id DESC limit 1) a"
   let timeOut=setInterval(() => {
-    connection.query(chat,function(error, results, fields){
+     var connection=mysql.createConnection(dbConfig.mysql)
+     connection.connect();
+     connection.query(chat,function(error, results, fields){
       if(results[0].id){
       if(id<results[0].id||req.body.status) {
       id=results[0].id
