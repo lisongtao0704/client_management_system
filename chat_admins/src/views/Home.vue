@@ -10,7 +10,7 @@
                 <div>
                   <img src="../assets/头像.png" />
                   <div>
-                    <p>{{$store.state.nickname}}</p>
+                    <p>{{ $store.state.nickname }}</p>
                     <p>超级管理员</p>
                   </div>
                 </div>
@@ -306,7 +306,7 @@
 <script>
 import chat from "../components/chat_frame";
 import chatuser from "../components/chat_frame_user";
-import { chatInfo } from "../api/index.js";
+import { chatInfo, chatInsert } from "../api/index.js";
 export default {
   name: "Home",
   components: {
@@ -319,26 +319,26 @@ export default {
       timeme: 11111,
       timeuser: 11111,
       empty: false,
-      chat_info:null,
+      chat_info: null,
       // chatContent:"sfsdgsdfg",
     };
   },
   mounted() {
-     chatInfo({status:true}).then((res)=>{
-       console.log("初始化历史记录",res)
-       this.chat_info=res.data.data
-     })
-     let that=this
-    function fn(){
+    chatInfo({ status: true }).then((res) => {
+      console.log("初始化历史记录", res);
+      this.chat_info = res.data.data;
+    });
+    let that = this;
+    function fn() {
       chatInfo().then((res) => {
         setTimeout(() => {
-          fn()
-          that.chat_info=res.data.data
-          console.log("长轮询",res)
+          fn();
+          that.chat_info = res.data.data;
+          console.log("长轮询", res);
         }, 500);
-    });
+      });
     }
-    fn()
+    fn();
     this.$refs.content.addEventListener("keyup", (event) => {
       let x = event.which || event.keyCode;
       if (event.ctrlKey && x == 13) {
@@ -354,9 +354,14 @@ export default {
           this.$refs.chat.children[0].cloneNode(true)
         );
         let chat_list = this.$refs.chat.children;
+        let time = new Date().format("YYYY-MM-DD hh:mm:ss");
+        let chatContent=this.$refs.content.innerText
+        chatInsert({chatContent:chatContent,time:time}).then((res) => {
+          console.log("11111111111",res)
+        });
         chat_list[
           chat_list.length - 1
-        ].children[1].children[0].innerText = this.$refs.content.innerText;
+        ].children[1].children[0].innerText = chatContent;
         this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight + 10;
         this.$refs.content.innerText = "";
         this.$nextTick(() => {

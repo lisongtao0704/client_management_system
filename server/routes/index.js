@@ -120,7 +120,6 @@ router.post("/chat",urlencodedParser,function(req,res){
         connection.end();
       })
 
-
     }else{
       id=results[0].id
     }
@@ -131,14 +130,21 @@ router.post("/chat",urlencodedParser,function(req,res){
 
   
 })
-//主题配置颜色
-router.post("/serviceConfig",urlencodedParser,function(req,res){
+//聊天信息插入
+router.post("/chatInsert",urlencodedParser,function(req,res){
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
-  console.log(req.body)
+  
+  let configinfoColor=`INSERT INTO chat_info VALUES(null,null,'${req.body.chatContent}',null,'${req.body.time}')`
+  connection.query(configinfoColor,function(){
+    res.send("插入成功")
+    connection.end();
+  })
+})
+//主题配置颜色
+router.post("/serviceConfig",urlencodedParser,function(req,res){
   if(req.body.state=='change'){
     let configinfoColor=`update service_config set ${req.body.color}='${req.body.colorVal}'`
-    console.log(configinfoColor)
     connection.query(configinfoColor,function(){
       res.send()
       res.end()
@@ -146,7 +152,6 @@ router.post("/serviceConfig",urlencodedParser,function(req,res){
   }else{
      let configinfo="select * from service_config"
     connection.query(configinfo,function(error, results, fields){
-      console.log(888888888888888)
     res.send(results)
     res.end()
   })

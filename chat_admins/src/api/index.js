@@ -15,6 +15,15 @@ const request=axios.create({
       data
     })
   }
+//插入聊天内容
+export const chatInsert = data => {
+  return request({
+    'Content-Type': 'application/json;charset=utf-8',
+    method: 'POST',
+    url: '/chatInsert',
+    data
+  })
+}
   //客服配置信息
   export const serviceConfig = data => {
     return request({
