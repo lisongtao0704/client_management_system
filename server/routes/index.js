@@ -103,9 +103,9 @@ let id=0
 //客户聊天
 router.post("/chat",urlencodedParser,function(req,res){
   let chat="select id from (select * from chat_info order by id DESC limit 1) a"
-  let timeOut=setInterval(() => {
-     var connection=mysql.createConnection(dbConfig.mysql)
+  var connection=mysql.createConnection(dbConfig.mysql)
      connection.connect();
+  let timeOut=setInterval(() => {
      connection.query(chat,function(error, results, fields){
       if(results[0].id){
       if(id<results[0].id||req.body.status) {
@@ -117,7 +117,6 @@ router.post("/chat",urlencodedParser,function(req,res){
         clearInterval(timeOut)
         connection.end();
       })
-
     }else{
       id=results[0].id
     }

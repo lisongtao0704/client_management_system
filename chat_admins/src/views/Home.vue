@@ -357,7 +357,6 @@ export default {
         let time = new Date().format("YYYY-MM-DD hh:mm:ss");
         let chatContent=this.$refs.content.innerText
         chatInsert({chatContent:chatContent,time:time}).then((res) => {
-          console.log("11111111111",res)
         });
         chat_list[
           chat_list.length - 1

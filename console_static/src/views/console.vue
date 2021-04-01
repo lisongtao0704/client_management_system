@@ -53,7 +53,7 @@
             />
             <div>
               <ul>
-                <li>在线接入测试</li>
+                <li @click="user_chat">在线接入测试</li>
                 <li @click="log_off">退出登录</li>
               </ul>
             </div>
@@ -393,7 +393,8 @@ export default {
       text_val: "",
       num_bool: true,
       num: "",
-      win:null,
+      win: null,
+      win_chat:null,
       home: require("../assets/home.png"),
       home_active: require("../assets/home_active.png"),
       home_src: "/console/home",
@@ -435,14 +436,25 @@ export default {
     },
   },
   methods: {
+    user_chat() {
+      if (!this.win_chat) {
+        this.win_chat = window.open("http://localhost:3200/");
+      } else {
+        if (this.win_chat.closed) {
+          this.win_chat = window.open("http://localhost:3200/");
+        } else {
+          alert("窗口已打开");
+        }
+      }
+    },
     work_admin() {
       if (!this.win) {
         this.win = window.open("http://localhost:8200/");
       } else {
-        if(this.win.closed){
+        if (this.win.closed) {
           this.win = window.open("http://localhost:8200/");
-        }else{
-            alert("窗口已打开")
+        } else {
+          alert("窗口已打开");
         }
       }
     },
