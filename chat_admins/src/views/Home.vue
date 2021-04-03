@@ -69,7 +69,13 @@
               </div>
             </div>
           </el-main>
-          <el-aside width="340px">Aside</el-aside>
+          <el-aside width="340px">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+              <el-tab-pane label="客户资料" name="first">客户资料</el-tab-pane>
+              <el-tab-pane label="快捷回复" name="second">快捷回复</el-tab-pane>
+              <el-tab-pane label="智能回复" name="third">智能回复</el-tab-pane>
+            </el-tabs>
+          </el-aside>
         </el-container>
       </el-container>
     </el-container>
@@ -193,8 +199,22 @@
     color: #333;
     text-align: center;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    
+    /deep/.el-tabs{
+      width: 100%;
+      .is-active{
+        color:var(--default)
+      }
+      .el-tabs__nav.is-top{
+        margin-left: 20px;
+      }
+      .el-tabs__item:hover{
+        color:var(--default)
+      }
+      .el-tabs__active-bar.is-top{
+        background-color: var(--default);
+      }
+    }
   }
 
   .el-main {
@@ -320,6 +340,7 @@ export default {
       timeuser: 11111,
       empty: false,
       chat_info: null,
+      activeName: 'first'
       // chatContent:"sfsdgsdfg",
     };
   },
@@ -355,9 +376,8 @@ export default {
         );
         let chat_list = this.$refs.chat.children;
         let time = new Date().format("YYYY-MM-DD hh:mm:ss");
-        let chatContent=this.$refs.content.innerText
-        chatInsert({chatContent:chatContent,time:time}).then((res) => {
-        });
+        let chatContent = this.$refs.content.innerText;
+        chatInsert({ chatContent: chatContent, time: time }).then((res) => {});
         chat_list[
           chat_list.length - 1
         ].children[1].children[0].innerText = chatContent;
