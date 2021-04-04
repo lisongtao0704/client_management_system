@@ -6,10 +6,10 @@
     <div class="chat_right"><slot name="chat_main"></slot></div>
   </div>
 </template>
-<style lang="less" scoped>
+<style lang="less">
 #chat {
   width: 50%;
-  margin-right: 5px;
+  margin-left: 5px;
   float: right;
   .title {
     text-align: right;

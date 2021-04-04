@@ -12,7 +12,11 @@
 </body>
 </html>
 <style>
-  *::-webkit-scrollbar {
+*{
+    margin: 0;
+    padding: 0;
+  }
+*::-webkit-scrollbar {
   width: 2px;
   height: 2px;
 }
@@ -28,5 +32,18 @@
 
 *::-webkit-scrollbar-thumb:hover {
   background: var(--active);
+}
+#app{
+  height: 100vh;
+  min-height: 616px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+:root {
+  --default: #09aeb0;
+  --nav_bg: #3d4966;
+  --active: #192948;
+  --list_bg_active: #f0f3fb;
+  --list_hover: #f0f3fba3;
 }
 </style>
