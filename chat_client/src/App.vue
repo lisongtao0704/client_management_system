@@ -16,6 +16,8 @@
     </div>
     <div class="user_input">
       <div class="chat_input" contenteditable="true" ref="content"></div>
+      <span>快捷键:ctrl+enter发送</span>
+      <span v-show="empty">发送内容不能为空</span>
       <button @click="send">发送</button>
     </div>
   </div>
@@ -49,6 +51,18 @@
     padding: 15px;
     box-sizing: border-box;
     border: 1px solid var(--list_bg_active);
+    position: relative;
+    span:nth-of-type(2){
+      position: absolute;
+      color: red;
+      bottom: 29px;
+    right: 14px;
+     font-size: 12px;
+    }
+    span:nth-of-type(1){
+     font-size: 12px;
+     color: var(--active);
+    }
     .chat_input {
       height: 90px;
       overflow: auto;
@@ -74,7 +88,7 @@
 <script>
 import chat from "./components/chatLeft.vue";
 import {ref,onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onErrorCaptured } from'vue'
-
+import {serviceConfig} from './api/index'
 export default {
   name: "App",
   components: {
@@ -82,15 +96,22 @@ export default {
   },
   data() {
     return {
-      count: 0
+      empty: false
     }
   },
   methods: {
     send(){
       if(this.$refs.content.innerText.trim()){
         this.$refs.chat.appendChild(this.$refs.chat.children[0].cloneNode(true))
-      this.$refs.chat.children[this.$refs.chat.children.length - 1].children[0].children[0].innerText = new Date().format("YYYY-MM-DD hh:mm:ss");
-       this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+       this.$refs.chat.children[this.$refs.chat.children.length - 1].children[0].children[0].innerText = new Date().format("YYYY-MM-DD hh:mm:ss");
+       this.$refs.chat.children[ this.$refs.chat.children.length - 1].children[1].children[0].innerText = this.$refs.content.innerText;
+        this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+       this.$refs.content.innerText = "";
+      }else{
+        this.empty = true;
+        setTimeout(() => {
+          this.empty = false;
+        }, 500);
       }
     }
   },
@@ -105,8 +126,16 @@ setup(props,context){
     }
     console.log(refs)
   onMounted(()=>{
-    console.log(content.value.innerText)
-  //  .focus()
+    content.value.focus()
+   content.value.addEventListener("keyup", (event) => {
+      let x = event.which || event.keyCode;
+      if (event.ctrlKey && x == 13) {
+        document.getElementsByClassName('user_input')[0].getElementsByTagName('button')[0].click();
+      }
+    });
+    serviceConfig().then((res)=>{
+
+    })
   }) 
   // onBeforeUpdate(()=>{
 
