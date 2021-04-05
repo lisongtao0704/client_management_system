@@ -104,13 +104,21 @@ let id=0
 router.post("/chat",urlencodedParser,function(req,res){
   let chat="select id from (select * from chat_info order by id DESC limit 1) a"
   var connection=mysql.createConnection(dbConfig.mysql)
-     connection.connect();
+      connection.connect();
+    if(req.body.status=="history") {
+      let chat_all="select * from chat_info"
+        connection.query(chat_all,function(error, results, fields){
+        res.send({status:true,data:results})
+        res.end()
+        connection.end();
+      })
+    }
   let timeOut=setInterval(() => {
      connection.query(chat,function(error, results, fields){
       if(results[0].id){
       if(id<results[0].id||req.body.status) {
       id=results[0].id
-      let chat_all="select * from chat_info"
+        let chat_all="select * from chat_info"
         connection.query(chat_all,function(error, results, fields){
         res.send({status:true,data:results})
         res.end()
@@ -131,12 +139,21 @@ router.post("/chat",urlencodedParser,function(req,res){
 router.post("/chatInsert",urlencodedParser,function(req,res){
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
+  if(req.body.who=="service"){
+    let configinfoColor=`INSERT INTO chat_info VALUES(null,null,'${req.body.chatContent}',null,'${req.body.time}')`
+    connection.query(configinfoColor,function(){
+      res.send("客服聊天信息插入成功")
+      connection.end();
+    })
+  }
+  if(req.body.who=="user"){
+    let configinfoColor=`INSERT INTO chat_info VALUES(null,'${req.body.chatContent}',null,'${req.body.time}',null)`
+    connection.query(configinfoColor,function(){
+      res.send("客户聊天记录插入成功")
+      connection.end();
+    })
+  }
   
-  let configinfoColor=`INSERT INTO chat_info VALUES(null,null,'${req.body.chatContent}',null,'${req.body.time}')`
-  connection.query(configinfoColor,function(){
-    res.send("插入成功")
-    connection.end();
-  })
 })
 //主题配置颜色
 router.post("/serviceConfig",urlencodedParser,function(req,res){

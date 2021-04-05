@@ -88,7 +88,7 @@
 <script>
 import chat from "./components/chatLeft.vue";
 import {ref,onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onErrorCaptured } from'vue'
-import {serviceConfig} from './api/index'
+import {serviceConfig,chatInsert} from './api/index'
 export default {
   name: "App",
   components: {
@@ -102,11 +102,14 @@ export default {
   methods: {
     send(){
       if(this.$refs.content.innerText.trim()){
+        let time=new Date().format("YYYY-MM-DD hh:mm:ss");
+        let chatContent=this.$refs.content.innerText
         this.$refs.chat.appendChild(this.$refs.chat.children[0].cloneNode(true))
-       this.$refs.chat.children[this.$refs.chat.children.length - 1].children[0].children[0].innerText = new Date().format("YYYY-MM-DD hh:mm:ss");
-       this.$refs.chat.children[ this.$refs.chat.children.length - 1].children[1].children[0].innerText = this.$refs.content.innerText;
+        this.$refs.chat.children[this.$refs.chat.children.length - 1].children[0].children[0].innerText = time
+        this.$refs.chat.children[this.$refs.chat.children.length - 1].children[1].children[0].innerText = this.$refs.content.innerText;
         this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
-       this.$refs.content.innerText = "";
+        chatInsert({ chatContent: chatContent, time: time,who:"user"}).then((res) => {});
+        this.$refs.content.innerText = "";
       }else{
         this.empty = true;
         setTimeout(() => {
@@ -124,17 +127,16 @@ setup(props,context){
   const dom = el => {
       refs= el;
     }
-    console.log(refs)
   onMounted(()=>{
     content.value.focus()
-   content.value.addEventListener("keyup", (event) => {
+    content.value.addEventListener("keyup", (event) => {
       let x = event.which || event.keyCode;
       if (event.ctrlKey && x == 13) {
         document.getElementsByClassName('user_input')[0].getElementsByTagName('button')[0].click();
       }
     });
     serviceConfig().then((res)=>{
-
+      
     })
   }) 
   // onBeforeUpdate(()=>{

@@ -47,12 +47,12 @@
               <chat>
                 <p slot="service">{{ $store.state.nickname }}</p>
                 <p slot="data"></p>
-                <span slot="chat_main">我是内容</span>
+                <span slot="chat_main">我是客服内容</span>
               </chat>
               <chatuser>
-                <p slot="service">客户</p>
+                <p slot="service">客户昵称</p>
                 <p slot="data"></p>
-                <span slot="chat_main">我是内容</span>
+                <span slot="chat_main">我是用户内容</span>
               </chatuser>
             </div>
             <div class="chat_send">
@@ -70,7 +70,7 @@
             </div>
           </el-main>
           <el-aside width="340px">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tabs v-model="activeName">
               <el-tab-pane label="客户资料" name="first">客户资料</el-tab-pane>
               <el-tab-pane label="快捷回复" name="second">快捷回复</el-tab-pane>
               <el-tab-pane label="智能回复" name="third">智能回复</el-tab-pane>
@@ -199,19 +199,19 @@
     color: #333;
     text-align: center;
     display: flex;
-    
-    /deep/.el-tabs{
+
+    /deep/.el-tabs {
       width: 100%;
-      .is-active{
-        color:var(--default)
+      .is-active {
+        color: var(--default);
       }
-      .el-tabs__nav.is-top{
+      .el-tabs__nav.is-top {
         margin-left: 20px;
       }
-      .el-tabs__item:hover{
-        color:var(--default)
+      .el-tabs__item:hover {
+        color: var(--default);
       }
-      .el-tabs__active-bar.is-top{
+      .el-tabs__active-bar.is-top {
         background-color: var(--default);
       }
     }
@@ -252,6 +252,9 @@
       height: 305px;
       overflow: auto;
       div:nth-of-type(1) {
+        display: none;
+      }
+      div:nth-of-type(2) {
         display: none;
       }
       @media screen and (min-height: 648px) {
@@ -340,23 +343,61 @@ export default {
       timeuser: 11111,
       empty: false,
       chat_info: null,
-      activeName: 'first'
-      // chatContent:"sfsdgsdfg",
+      activeName: "first",
     };
   },
   mounted() {
     chatInfo({ status: true }).then((res) => {
       console.log("初始化历史记录", res);
       this.chat_info = res.data.data;
+       let that = this;
+       res.data.data.forEach((item, index, array) => {
+            if (item.service_chat) {
+              that.$refs.chat.appendChild(
+                that.$refs.chat.children[0].cloneNode(true)
+              );
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[0].children[0].innerText = item.service_sendtime;
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[1].children[0].innerText = item.service_chat;
+              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+            }
+            if (item.user_chat) {
+              that.$refs.chat.appendChild(
+                that.$refs.chat.children[1].cloneNode(true)
+              );
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[0].children[1].innerText = item.user_sendtime;
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[1].children[0].innerText = item.user_chat;
+              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+            }
+          })
     });
-    let that = this;
+   let that=this
     function fn() {
       chatInfo().then((res) => {
         setTimeout(() => {
-          fn();
-          that.chat_info = res.data.data;
-          console.log("长轮询", res);
-        }, 500);
+          let item=res.data.data[res.data.data.length-1]
+          console.log("长轮询",item)
+            if(item.user_chat){
+               that.$refs.chat.appendChild(
+                that.$refs.chat.children[1].cloneNode(true)
+              );
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[0].children[1].innerText = item.user_sendtime;
+              that.$refs.chat.children[
+                that.$refs.chat.children.length - 1
+              ].children[1].children[0].innerText = item.user_chat;
+              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+            }
+        fn();
+        }, 100);
       });
     }
     fn();
@@ -371,13 +412,15 @@ export default {
   methods: {
     send() {
       if (this.$refs.content.innerText.trim()) {
-        this.$refs.chat.appendChild(
-          this.$refs.chat.children[0].cloneNode(true)
-        );
+        this.$refs.chat.appendChild(this.$refs.chat.children[0].cloneNode(true));
         let chat_list = this.$refs.chat.children;
         let time = new Date().format("YYYY-MM-DD hh:mm:ss");
         let chatContent = this.$refs.content.innerText;
-        chatInsert({ chatContent: chatContent, time: time }).then((res) => {});
+        chatInsert({
+          chatContent: chatContent,
+          time: time,
+          who: "service",
+        }).then((res) => {});
         chat_list[
           chat_list.length - 1
         ].children[1].children[0].innerText = chatContent;

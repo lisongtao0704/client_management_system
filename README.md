@@ -24,5 +24,7 @@
 
 6. 进入到`chat_client`文件夹中，命令行输入`yarn dev`启动项目客户聊天页部分
 
+`eg： /node_modules/sockjs-client/dist/sockjs.js   1606   // self.xhr.send(payload) `
+
 
 
