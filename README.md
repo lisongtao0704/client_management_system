@@ -34,5 +34,7 @@
 
 `eg： /node_modules/sockjs-client/dist/sockjs.js   1606   // self.xhr.send(payload) `
 
+聊天内容加载不出来清理缓存即可
+
 
 
