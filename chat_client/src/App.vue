@@ -1,10 +1,10 @@
 <template>
-  <div class="main">
+  <div class="main" ref="main">
     <div class="chat_header">用户聊天页</div>
     <div class="chat_info" ref="chat">
       <chat>
         <template v-slot:service>
-          <p>昵称</p>
+          <p>客户昵称</p>
         </template>
         <template v-slot:data>
           <p>时间</p>
@@ -13,6 +13,17 @@
           <span>我是内容</span>
         </template>
       </chat>
+      <chatService>
+        <template v-slot:service>
+          <p>Superman</p>
+        </template>
+        <template v-slot:data>
+          <p>时间</p>
+        </template>
+        <template v-slot:chat_main>
+          <span>我是内容</span>
+        </template>
+      </chatService>
     </div>
     <div class="user_input">
       <div class="chat_input" contenteditable="true" ref="content"></div>
@@ -86,13 +97,15 @@
 }
 </style>
 <script>
-import chat from "./components/chatLeft.vue";
+import chat from "./components/chatRight.vue";
+import chatService from "./components/chatService.vue";
 import {ref,onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onErrorCaptured } from'vue'
 import {serviceConfig,chatInsert} from './api/index'
 export default {
   name: "App",
   components: {
     chat,
+    chatService
   },
   data() {
     return {
@@ -123,6 +136,7 @@ setup(props,context){
   //   alert(1)
   // })
   const content=ref(null)
+  const main=ref(null)
   let refs=""
   const dom = el => {
       refs= el;
@@ -136,7 +150,7 @@ setup(props,context){
       }
     });
     serviceConfig().then((res)=>{
-      
+      main.value.style.cssText = `--default:${res.data[0].defaultColor};--nav_bg:${res.data[0].nav_bg};--active:${res.data[0].active};--list_bg_active:${res.data[0].list_bg_active}; --list_hover:${res.data[0].list_hover}`;
     })
   }) 
   // onBeforeUpdate(()=>{
@@ -149,7 +163,8 @@ setup(props,context){
    
   // }) 
   return {
-     content
+     content,
+     main
     };
   
 },
