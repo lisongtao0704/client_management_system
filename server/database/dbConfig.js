@@ -3,6 +3,7 @@ module.exports={
         host     : 'localhost',
         user     : 'root',
         password : 'root',
-        database : 'userdb'
+        database : 'userdb',
+        charset:'UTF8MB4_GENERAL_CI'
       }
 }

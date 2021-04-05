@@ -10,9 +10,9 @@
 #chat {
   width: 50%;
   margin-left: 5px;
-  float:left;
+  float: left;
   .title {
-    text-align:left;
+    text-align: left;
     p:nth-of-type(1) {
       font-size: 16px;
       margin-right: 5px;
@@ -35,7 +35,8 @@
     padding: 5px 10px;
     border-radius: 5px;
     background-color: var(--list_bg_active);
-    span{
+    border: 1px solid #80808017;
+    span {
       white-space: pre-wrap;
       word-break: break-all;
     }

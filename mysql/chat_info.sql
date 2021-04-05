@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 06/04/2021 04:03:54
+ Date: 06/04/2021 05:55:11
 */
 
 SET NAMES utf8mb4;
@@ -35,5 +35,7 @@ CREATE TABLE `chat_info`  (
 -- ----------------------------
 INSERT INTO `chat_info` VALUES (1, '您好！我是第一条历史消息。', NULL, '2021-04-06 03:56:42', NULL);
 INSERT INTO `chat_info` VALUES (2, NULL, '好的，我知道了。', NULL, '2021-04-06 04:02:56');
+INSERT INTO `chat_info` VALUES (3, NULL, '😀😄😚', NULL, '2021-04-06 05:53:29');
+INSERT INTO `chat_info` VALUES (4, 'emoji', NULL, '2021-04-06 05:53:56', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

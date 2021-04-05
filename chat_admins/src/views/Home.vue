@@ -57,7 +57,10 @@
             </div>
             <div class="chat_send">
               <div class="test">
-                <img src="../assets/icon.png" />
+                <div class="emoji" v-show="emoji" ref="emoji">
+                  <span v-for="item in expression">{{ item.char }}</span>
+                </div>
+                <img @click="emojiFrame" src="../assets/icon.png" />
               </div>
               <div class="chat_me">
                 <div ref="content" contenteditable="true" v-focus></div>
@@ -317,8 +320,34 @@
         text-align: left;
         height: 17%;
         padding: 5px 0 0 20px;
+        position: relative;
+        &:hover img {
+          cursor: pointer;
+          opacity: 1;
+        }
+        .emoji {
+          width: 192px;
+          background: #fff;
+          height: 215px;
+          padding: 7px;
+          border-radius: 5px;
+          position: absolute;
+          bottom: 40px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          left: 5px;
+          span {
+            width: 20px;
+            margin: 0 2px;
+            display: inline-block;
+            text-align: center;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
         img {
           margin-left: 3px;
+          opacity: 0.7;
         }
       }
     }
@@ -330,6 +359,8 @@
 import chat from "../components/chat_frame";
 import chatuser from "../components/chat_frame_user";
 import { chatInfo, chatInsert } from "../api/index.js";
+const emoji = require("../assets/emojis.json");
+console.log("小表情", emoji);
 export default {
   name: "Home",
   components: {
@@ -344,59 +375,68 @@ export default {
       empty: false,
       chat_info: null,
       activeName: "first",
+      emoji: false,
+      expression: emoji,
     };
   },
   mounted() {
-    chatInfo({ status:"history"}).then((res) => {
+    this.$refs.emoji.addEventListener("click",(event)=>{
+      if(event.target.localName=="span"){
+        this.$refs.content.innerText+=event.target.innerText
+        this.emoji=false
+        console.log(event.target.innerText)
+      }
+    })
+    chatInfo({ status: "history" }).then((res) => {
       console.log("初始化历史记录", res);
       this.chat_info = res.data.data;
-       let that = this;
-       res.data.data.forEach((item, index, array) => {
-            if (item.service_chat) {
-              that.$refs.chat.appendChild(
-                that.$refs.chat.children[0].cloneNode(true)
-              );
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[0].children[0].innerText = item.service_sendtime;
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[1].children[0].innerText = item.service_chat;
-              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
-            }
-            if (item.user_chat) {
-              that.$refs.chat.appendChild(
-                that.$refs.chat.children[1].cloneNode(true)
-              );
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[0].children[1].innerText = item.user_sendtime;
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[1].children[0].innerText = item.user_chat;
-              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
-            }
-          })
+      let that = this;
+      res.data.data.forEach((item, index, array) => {
+        if (item.service_chat) {
+          that.$refs.chat.appendChild(
+            that.$refs.chat.children[0].cloneNode(true)
+          );
+          that.$refs.chat.children[
+            that.$refs.chat.children.length - 1
+          ].children[0].children[0].innerText = item.service_sendtime;
+          that.$refs.chat.children[
+            that.$refs.chat.children.length - 1
+          ].children[1].children[0].innerText = item.service_chat;
+          that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+        }
+        if (item.user_chat) {
+          that.$refs.chat.appendChild(
+            that.$refs.chat.children[1].cloneNode(true)
+          );
+          that.$refs.chat.children[
+            that.$refs.chat.children.length - 1
+          ].children[0].children[1].innerText = item.user_sendtime;
+          that.$refs.chat.children[
+            that.$refs.chat.children.length - 1
+          ].children[1].children[0].innerText = item.user_chat;
+          that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+        }
+      });
     });
-   let that=this
+    let that = this;
     function fn() {
       chatInfo().then((res) => {
         setTimeout(() => {
-          let item=res.data.data[res.data.data.length-1]
-          console.log("长轮询",item)
-            if(item.user_chat){
-               that.$refs.chat.appendChild(
-                that.$refs.chat.children[1].cloneNode(true)
-              );
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[0].children[1].innerText = item.user_sendtime;
-              that.$refs.chat.children[
-                that.$refs.chat.children.length - 1
-              ].children[1].children[0].innerText = item.user_chat;
-              that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
-            }
-        fn();
+          let item = res.data.data[res.data.data.length - 1];
+          console.log("长轮询", item);
+          if (item.user_chat) {
+            that.$refs.chat.appendChild(
+              that.$refs.chat.children[1].cloneNode(true)
+            );
+            that.$refs.chat.children[
+              that.$refs.chat.children.length - 1
+            ].children[0].children[1].innerText = item.user_sendtime;
+            that.$refs.chat.children[
+              that.$refs.chat.children.length - 1
+            ].children[1].children[0].innerText = item.user_chat;
+            that.$refs.chat.scrollTop = that.$refs.chat.scrollHeight;
+          }
+          fn();
         }, 100);
       });
     }
@@ -410,12 +450,22 @@ export default {
   },
   computed: {},
   methods: {
+    emojiFrame() {
+      if (this.emoji) {
+        this.emoji = false;
+      } else {
+        this.emoji = true;
+      }
+    },
     send() {
       if (this.$refs.content.innerText.trim()) {
-        this.$refs.chat.appendChild(this.$refs.chat.children[0].cloneNode(true));
+        this.$refs.chat.appendChild(
+          this.$refs.chat.children[0].cloneNode(true)
+        );
         let chat_list = this.$refs.chat.children;
         let time = new Date().format("YYYY-MM-DD hh:mm:ss");
         let chatContent = this.$refs.content.innerText;
+        console.log(1111111111111,chatContent)
         chatInsert({
           chatContent: chatContent,
           time: time,

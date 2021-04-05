@@ -157,6 +157,7 @@ router.post("/chatUser",urlencodedParser,function(req,res){
 router.post("/chatInsert",urlencodedParser,function(req,res){
   var connection=mysql.createConnection(dbConfig.mysql)
   connection.connect();
+  console.log(req.body)
   if(req.body.who=="service"){
     let configinfoColor=`INSERT INTO chat_info VALUES(null,null,'${req.body.chatContent}',null,'${req.body.time}')`
     connection.query(configinfoColor,function(){
