@@ -53,10 +53,10 @@
     padding: 4px;
     box-sizing: border-box;
     overflow: auto;
-    div:nth-of-type(1){
+    div:nth-of-type(1) {
       display: none;
     }
-    div:nth-of-type(2){
+    div:nth-of-type(2) {
       display: none;
     }
   }
@@ -66,16 +66,16 @@
     box-sizing: border-box;
     border: 1px solid var(--list_bg_active);
     position: relative;
-    span:nth-of-type(2){
+    span:nth-of-type(2) {
       position: absolute;
       color: red;
       bottom: 29px;
-    right: 14px;
-     font-size: 12px;
+      right: 14px;
+      font-size: 12px;
     }
-    span:nth-of-type(1){
-     font-size: 12px;
-     color: var(--active);
+    span:nth-of-type(1) {
+      font-size: 12px;
+      color: var(--active);
     }
     .chat_input {
       height: 90px;
@@ -102,109 +102,147 @@
 <script>
 import chat from "./components/chatRight.vue";
 import chatService from "./components/chatService.vue";
-import {ref,onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onErrorCaptured } from'vue'
-import {serviceConfig,chatInsert,chatInfo} from './api/index'
+import {
+  ref,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+  onErrorCaptured,
+} from "vue";
+import { serviceConfig, chatInsert, chatInfo ,chatUser } from "./api/index";
 export default {
   name: "App",
   components: {
     chat,
-    chatService
+    chatService,
   },
   data() {
     return {
-      empty: false
-    }
+      empty: false,
+    };
   },
   methods: {
-    send(){
-      if(this.$refs.content.innerText.trim()){
-        let time=new Date().format("YYYY-MM-DD hh:mm:ss");
-        let chatContent=this.$refs.content.innerText
-        this.$refs.chat.appendChild(this.$refs.chat.children[0].cloneNode(true))
-        this.$refs.chat.children[this.$refs.chat.children.length - 1].children[0].children[0].innerText = time
-        this.$refs.chat.children[this.$refs.chat.children.length - 1].children[1].children[0].innerText = this.$refs.content.innerText;
+    send() {
+      if (this.$refs.content.innerText.trim()) {
+        let time = new Date().format("YYYY-MM-DD hh:mm:ss");
+        let chatContent = this.$refs.content.innerText;
+        this.$refs.chat.appendChild(
+          this.$refs.chat.children[0].cloneNode(true)
+        );
+        this.$refs.chat.children[
+          this.$refs.chat.children.length - 1
+        ].children[0].children[0].innerText = time;
+        this.$refs.chat.children[
+          this.$refs.chat.children.length - 1
+        ].children[1].children[0].innerText = this.$refs.content.innerText;
         this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
-        chatInsert({ chatContent: chatContent, time: time,who:"user"}).then((res) => {});
+        chatInsert({
+          chatContent: chatContent,
+          time: time,
+          who: "user",
+        }).then((res) => {});
         this.$refs.content.innerText = "";
-      }else{
+      } else {
         this.empty = true;
         setTimeout(() => {
           this.empty = false;
         }, 500);
       }
-    }
+    },
   },
-setup(props,context){
-  // onBeforeMount(()=>{
-  //   alert(1)
-  // })
-  const content=ref(null)
-  const main=ref(null)
-  const chat=ref(null)
-  let refs=""
-  const dom = el => {
-      refs= el;
-    }
-  onMounted(()=>{
-    content.value.focus()
-    content.value.addEventListener("keyup", (event) => {
-      let x = event.which || event.keyCode;
-      if (event.ctrlKey && x == 13) {
-        document.getElementsByClassName('user_input')[0].getElementsByTagName('button')[0].click();
-      }
-    });
-    serviceConfig().then((res)=>{
-      main.value.style.cssText = `--default:${res.data[0].defaultColor};--nav_bg:${res.data[0].nav_bg};--active:${res.data[0].active};--list_bg_active:${res.data[0].list_bg_active}; --list_hover:${res.data[0].list_hover}`;
-    })
-    chatInfo({ status:"history"}).then((res)=>{
-      console.log("初始化历史记录", res);
+  setup(props, context) {
+    // onBeforeMount(()=>{
+    //   alert(1)
+    // })
+    const content = ref(null);
+    const main = ref(null);
+    const chat = ref(null);
+    let refs = "";
+    const dom = (el) => {
+      refs = el;
+    };
+    onMounted(() => {
+      content.value.focus();
+      content.value.addEventListener("keyup", (event) => {
+        let x = event.which || event.keyCode;
+        if (event.ctrlKey && x == 13) {
+          document
+            .getElementsByClassName("user_input")[0]
+            .getElementsByTagName("button")[0]
+            .click();
+        }
+      });
+      serviceConfig().then((res) => {
+        main.value.style.cssText = `--default:${res.data[0].defaultColor};--nav_bg:${res.data[0].nav_bg};--active:${res.data[0].active};--list_bg_active:${res.data[0].list_bg_active}; --list_hover:${res.data[0].list_hover}`;
+      });
+      chatInfo({ status: "history" }).then((res) => {
+        console.log("初始化历史记录", res);
 
-
- res.data.data.forEach((item, index, array) => {
-            if (item.service_chat) {
-               chat.value.appendChild(
+        res.data.data.forEach((item, index, array) => {
+          if (item.service_chat) {
+            chat.value.appendChild(chat.value.children[1].cloneNode(true));
+            chat.value.children[
+              chat.value.children.length - 1
+            ].children[0].children[1].innerText = item.service_sendtime;
+            chat.value.children[
+              chat.value.children.length - 1
+            ].children[1].children[0].innerText = item.service_chat;
+            chat.value.scrollTop = chat.value.scrollHeight;
+          }
+          if (item.user_chat) {
+            chat.value.appendChild(chat.value.children[0].cloneNode(true));
+            chat.value.children[
+              chat.value.children.length - 1
+            ].children[0].children[0].innerText = item.user_sendtime;
+            chat.value.children[
+              chat.value.children.length - 1
+            ].children[1].children[0].innerText = item.user_chat;
+            chat.value.scrollTop = chat.value.scrollHeight;
+          }
+        });
+      });
+       function fn() {
+      chatUser().then((res) => {
+        setTimeout(() => {
+          let item=res.data.data[res.data.data.length-1]
+          console.log("长轮询",item)
+            if(item.service_chat){
+              chat.value.appendChild(
                 chat.value.children[1].cloneNode(true)
               );
-              chat.value.children[
+             chat.value.children[
                chat.value.children.length - 1
               ].children[0].children[1].innerText = item.service_sendtime;
-              chat.value.children[
+             chat.value.children[
                 chat.value.children.length - 1
               ].children[1].children[0].innerText = item.service_chat;
               chat.value.scrollTop = chat.value.scrollHeight;
             }
-            if (item.user_chat) {
-            chat.value.appendChild(
-                chat.value.children[0].cloneNode(true)
-              );
-              chat.value.children[
-               chat.value.children.length - 1
-              ].children[0].children[0].innerText = item.user_sendtime;
-              chat.value.children[
-                chat.value.children.length - 1
-              ].children[1].children[0].innerText = item.user_chat;
-              chat.value.scrollTop = chat.value.scrollHeight;
-            }
-          })
+        fn();
+        }, 100);
+      });
+    }
+    fn();
+    });
+    // onBeforeUpdate(()=>{
 
-    })
-  }) 
-  // onBeforeUpdate(()=>{
+    // })
+    // onUpdated(()=>{
 
-  // })
-  // onUpdated(()=>{
-   
-  // }) 
-  //  onUnmounted(()=>{
-   
-  // }) 
-  return {
-     content,
-     main,
-     chat
+    // })
+    //  onUnmounted(()=>{
+
+    // })
+    return {
+      content,
+      main,
+      chat,
     };
-  
-},
-  
+  },
 };
 </script>

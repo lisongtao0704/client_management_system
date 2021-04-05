@@ -99,25 +99,29 @@ router.post('/sign', urlencodedParser,function (req, res) {
   });
   
 })
-let id=0
 //客户聊天
+let id_service=null
+let id_user=null
 router.post("/chat",urlencodedParser,function(req,res){
-  let chat="select id from (select * from chat_info order by id DESC limit 1) a"
+  let chat="select id,user_chat from (select * from chat_info order by id DESC limit 1) a"
   var connection=mysql.createConnection(dbConfig.mysql)
       connection.connect();
     if(req.body.status=="history") {
       let chat_all="select * from chat_info"
         connection.query(chat_all,function(error, results, fields){
+          connection.query(chat,function(error, results, fields){
+            id_service=results[0].id
+            id_user=results[0].id
+          })
         res.send({status:true,data:results})
         res.end()
         connection.end();
       })
     }else{
        let timeOut=setInterval(() => {
-     connection.query(chat,function(error, results, fields){
-      if(results[0].id){
-      if(id<results[0].id||req.body.status) {
-      id=results[0].id
+      connection.query(chat,function(error, results, fields){
+      if(results[0].id>id_service&&results[0].user_chat) {
+        id_service=results[0].id
         let chat_all="select * from chat_info"
         connection.query(chat_all,function(error, results, fields){
         res.send({status:true,data:results})
@@ -125,17 +129,29 @@ router.post("/chat",urlencodedParser,function(req,res){
         clearInterval(timeOut)
         connection.end();
       })
-    }else{
-      id=results[0].id
     }
-      }
-    
   })
-  }, 500);
+  }, 50);
     }
- 
-
-  
+})
+router.post("/chatUser",urlencodedParser,function(req,res){
+  let chat="select id,service_chat from (select * from chat_info order by id DESC limit 1) a"
+  var connection=mysql.createConnection(dbConfig.mysql)
+      connection.connect();
+       let timeOut=setInterval(() => {
+     connection.query(chat,function(error, results, fields){
+      if(results[0].id>id_user&&results[0].service_chat) {
+        id_user=results[0].id
+        let chat_all="select * from chat_info"
+        connection.query(chat_all,function(error, results, fields){
+        res.send({status:true,data:results})
+        res.end()
+        clearInterval(timeOut)
+        connection.end();
+      })
+    }
+  })
+  }, 50);
 })
 //聊天信息插入
 router.post("/chatInsert",urlencodedParser,function(req,res){

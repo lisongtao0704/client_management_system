@@ -16,6 +16,14 @@ const request=axios.create({
       data
     })
   }
+  export const chatUser = data => {
+    return request({
+      'Content-Type': 'application/json;charset=utf-8',
+      method: 'POST',
+      url: '/chatUser',
+      data
+    })
+  }
 //插入聊天内容
 export const chatInsert = data => {
   return request({
