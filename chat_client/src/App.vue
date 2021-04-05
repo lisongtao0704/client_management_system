@@ -56,6 +56,9 @@
     div:nth-of-type(1){
       display: none;
     }
+    div:nth-of-type(2){
+      display: none;
+    }
   }
   .user_input {
     height: 135px;
@@ -100,7 +103,7 @@
 import chat from "./components/chatRight.vue";
 import chatService from "./components/chatService.vue";
 import {ref,onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, onActivated, onDeactivated, onErrorCaptured } from'vue'
-import {serviceConfig,chatInsert} from './api/index'
+import {serviceConfig,chatInsert,chatInfo} from './api/index'
 export default {
   name: "App",
   components: {
@@ -137,6 +140,7 @@ setup(props,context){
   // })
   const content=ref(null)
   const main=ref(null)
+  const chat=ref(null)
   let refs=""
   const dom = el => {
       refs= el;
@@ -152,6 +156,38 @@ setup(props,context){
     serviceConfig().then((res)=>{
       main.value.style.cssText = `--default:${res.data[0].defaultColor};--nav_bg:${res.data[0].nav_bg};--active:${res.data[0].active};--list_bg_active:${res.data[0].list_bg_active}; --list_hover:${res.data[0].list_hover}`;
     })
+    chatInfo({ status:"history"}).then((res)=>{
+      console.log("初始化历史记录", res);
+
+
+ res.data.data.forEach((item, index, array) => {
+            if (item.service_chat) {
+               chat.value.appendChild(
+                chat.value.children[1].cloneNode(true)
+              );
+              chat.value.children[
+               chat.value.children.length - 1
+              ].children[0].children[1].innerText = item.service_sendtime;
+              chat.value.children[
+                chat.value.children.length - 1
+              ].children[1].children[0].innerText = item.service_chat;
+              chat.value.scrollTop = chat.value.scrollHeight;
+            }
+            if (item.user_chat) {
+            chat.value.appendChild(
+                chat.value.children[0].cloneNode(true)
+              );
+              chat.value.children[
+               chat.value.children.length - 1
+              ].children[0].children[0].innerText = item.user_sendtime;
+              chat.value.children[
+                chat.value.children.length - 1
+              ].children[1].children[0].innerText = item.user_chat;
+              chat.value.scrollTop = chat.value.scrollHeight;
+            }
+          })
+
+    })
   }) 
   // onBeforeUpdate(()=>{
 
@@ -164,7 +200,8 @@ setup(props,context){
   // }) 
   return {
      content,
-     main
+     main,
+     chat
     };
   
 },

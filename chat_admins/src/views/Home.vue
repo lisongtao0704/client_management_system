@@ -347,7 +347,7 @@ export default {
     };
   },
   mounted() {
-    chatInfo({ status: true }).then((res) => {
+    chatInfo({ status:"history"}).then((res) => {
       console.log("初始化历史记录", res);
       this.chat_info = res.data.data;
        let that = this;

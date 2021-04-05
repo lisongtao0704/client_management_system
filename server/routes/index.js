@@ -112,8 +112,8 @@ router.post("/chat",urlencodedParser,function(req,res){
         res.end()
         connection.end();
       })
-    }
-  let timeOut=setInterval(() => {
+    }else{
+       let timeOut=setInterval(() => {
      connection.query(chat,function(error, results, fields){
       if(results[0].id){
       if(id<results[0].id||req.body.status) {
@@ -132,6 +132,8 @@ router.post("/chat",urlencodedParser,function(req,res){
     
   })
   }, 500);
+    }
+ 
 
   
 })
