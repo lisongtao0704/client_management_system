@@ -34,7 +34,7 @@
     text-align: justify;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: var(--list_bg_active);
     span{
       white-space: pre-wrap;
       word-break: break-all;
