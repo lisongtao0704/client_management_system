@@ -200,7 +200,7 @@
         width: 100%;
         height: 100%;
         opacity: 0.5;
-        background-image: url("../assets/4.png");
+        background-image: url("../assets/4.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -268,7 +268,7 @@ export default {
         pwd_yes: "",
       },
       formLabelWidth: "70px",
-      img: require("../assets/4.png"),
+      img: require("../assets/4.jpg"),
       data: {
         id: "",
         pwd: "",
@@ -394,12 +394,12 @@ export default {
   mounted() {
     setInterval(() => {
       let bg = this.$refs.bg;
-      if (this.img == require("../assets/4.png")) {
+      if (this.img == require("../assets/4.jpg")) {
         bg.style.backgroundImage = "url(" + require("../assets/3.jpg") + ")";
         this.img = require("../assets/3.jpg");
       } else {
-        bg.style.backgroundImage = "url(" + require("../assets/4.png") + ")";
-        this.img = require("../assets/4.png");
+        bg.style.backgroundImage = "url(" + require("../assets/4.jpg") + ")";
+        this.img = require("../assets/4.jpg");
       }
     }, 20000);
   },
